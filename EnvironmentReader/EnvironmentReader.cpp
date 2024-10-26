@@ -34,7 +34,9 @@ std::string EnvironmentReader::getConnString() {
             "Environment variable DB_PASSWORD is not set");
     if (!envMap.contains("DB_PORT"))
         throw std::invalid_argument("Environment variable DB_PORT is not set");
-    std::string connString = "dbname=" + envMap["DB_NAME"] + " user=" + envMap["DB_USER"] + " password=" + envMap[
-                                 "DB_PASSWORD"] + " host=" + envMap["DB_HOST"] + " port=" + envMap["DB_PORT"];
+    std::string connString =
+            "dbname=" + envMap["DB_NAME"] + " user=" + envMap["DB_USER"]
+            + " password=" + envMap["DB_PASSWORD"] + " host="
+            + envMap["DB_HOST"] + " port=" + envMap["DB_PORT"];
     return connString;
 }
