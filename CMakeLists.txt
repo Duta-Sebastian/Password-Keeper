@@ -33,15 +33,6 @@ include(cmake/Options.cmake)
 #
 # FetchContent_MakeAvailable(SomeLib)
 
-#include(FetchContent)
-#
-#FetchContent_Declare(
-#        libpqxx
-#        GIT_REPOSITORY https://github.com/jtv/libpqxx.git
-#        GIT_TAG 7.9.2
-#)
-#FetchContent_MakeAvailable(libpqxx)
-
 ###############################################################################
 
 # external dependencies with find_package
@@ -54,7 +45,12 @@ pkg_check_modules(PQXX REQUIRED libpqxx)
 ###############################################################################
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
-    main.cpp
+        main.cpp
+        Database/Database.cpp
+        EnvironmentReader/EnvironmentReader.cpp
+        EnvironmentReader/EnvironmentReader.h
+        User/User.cpp
+        User/User.h
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -73,11 +69,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES} ${PQXX_LIBRARIES})
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
-if(APPLE)
+if (APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
-endif()
+endif ()
 
 include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt)
-# copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
-# copy_files(DIRECTORY images sounds)

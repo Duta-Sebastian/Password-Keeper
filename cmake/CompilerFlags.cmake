@@ -1,23 +1,23 @@
 # target definitions
 
-if(GITHUB_ACTIONS)
+if (GITHUB_ACTIONS)
     message("NOTE: GITHUB_ACTIONS defined")
     target_compile_definitions(${PROJECT_NAME} PRIVATE GITHUB_ACTIONS)
-endif()
+endif ()
 
 ###############################################################################
 
-if(PROJECT_WARNINGS_AS_ERRORS)
+if (PROJECT_WARNINGS_AS_ERRORS)
     set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_WARNING_AS_ERROR ON)
-endif()
+endif ()
 
 # custom compiler flags
 message("Compiler: ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
-if(MSVC)
+if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /permissive- /wd4244 /wd4267 /wd4996 /external:anglebrackets /external:W0 /utf-8 /MP)
-else()
+else ()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
-endif()
+endif ()
 
 ###############################################################################
 
