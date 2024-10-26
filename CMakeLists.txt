@@ -10,6 +10,7 @@ project(Password-Keeper)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(cmake/Options.cmake)
 
@@ -33,15 +34,29 @@ include(cmake/Options.cmake)
 #
 # FetchContent_MakeAvailable(SomeLib)
 
+include(FetchContent)
+
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+
+FetchContent_Declare(
+        pq
+        GIT_REPOSITORY https://git.postgresql.org/git/postgresql.git
+        GIT_TAG master
+)
+
+FetchContent_MakeAvailable(pq)
+
+FetchContent_Declare(
+     pqxx
+     GIT_REPOSITORY https://github.com/jtv/libpqxx.git
+     GIT_TAG 7.9.2
+)
+
+FetchContent_MakeAvailable(pqxx)
+
+
 ###############################################################################
-
-# external dependencies with find_package
-
-# find_package(Threads REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(PQ REQUIRED libpq)
-pkg_check_modules(PQXX REQUIRED libpqxx)
-
 ###############################################################################
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
@@ -57,8 +72,15 @@ include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
-target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS} ${PQXX_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES} ${PQXX_LIBRARIES})
+#target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS} ${PQXX_INCLUDE_DIRS})
+#target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES} ${PQXX_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOUCE_DIR}/lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
