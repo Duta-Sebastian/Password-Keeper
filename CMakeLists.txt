@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
 # for now, the project name is used as the executable name
-project(oop)
+project(Password-Keeper)
 # set(CMAKE_PROJECT_VERSION_MAJOR 0)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
@@ -33,33 +33,43 @@ include(cmake/Options.cmake)
 #
 # FetchContent_MakeAvailable(SomeLib)
 
+#include(FetchContent)
+#
+#FetchContent_Declare(
+#        libpqxx
+#        GIT_REPOSITORY https://github.com/jtv/libpqxx.git
+#        GIT_TAG 7.9.2
+#)
+#FetchContent_MakeAvailable(libpqxx)
+
 ###############################################################################
 
 # external dependencies with find_package
 
 # find_package(Threads REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PQ REQUIRED libpq)
+pkg_check_modules(PQXX REQUIRED libpqxx)
 
 ###############################################################################
-
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
     main.cpp
-    generated/src/Helper.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
-
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS} ${PQXX_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES} ${PQXX_LIBRARIES})
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
 # target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
 # target_link_libraries(${PROJECT_NAME} <SomeLib>)
 
 ###############################################################################
-
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})

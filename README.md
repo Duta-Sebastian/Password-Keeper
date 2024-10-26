@@ -1,7 +1,10 @@
-# Titlu proiect
+# Password-Keeper
 
 ## Descriere proiect
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Aplicația este un Password Keeper care permite utilizatorilor să își gestioneze parolele într-o bază de date securizată. Aceasta oferă funcționalitatea de a stoca și organiza parolele într-un mod eficient și sigur, precum și opțiunea de a genera parole noi, personalizate, la cerere.
+
+## Mentiuni
+In acest moment proiectul poate fi construit numai folosind WSL.
 
 ## Milestone #0
 
