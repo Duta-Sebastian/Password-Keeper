@@ -8,10 +8,10 @@ std::ostream& operator<<(std::ostream& os, const User& user) {
 }
 
 User::User(std::string username, const std::string &password)
-    : username(std::move(username)), passwordHash(password), userId(NULL) {}
+    : username(std::move(username)), passwordHash(password), userId(-1) {}
 
 User::User(std::string username, PasswordHash passwordHash)
-    : username(std::move(username)), passwordHash(std::move(passwordHash)), userId(NULL) {
+    : username(std::move(username)), passwordHash(std::move(passwordHash)), userId(-1) {
 }
 
 User::User(const User & otherUser): passwordHash(otherUser.passwordHash) {
