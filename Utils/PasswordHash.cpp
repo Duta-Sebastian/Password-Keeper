@@ -4,15 +4,20 @@
 #include <crypt.h>
 #include <string>
 #include <iomanip>
+#include <utility>
 // TODO: research ways to change crypt.h -> something with the same behaviour
-
 PasswordHash::PasswordHash(const std::string& password)
-// ReSharper disable once CppMemberInitializersOrder
-    : salt(generateSalt()) , hashedPassword(crypt(password.c_str(), salt.c_str())) {}
+    : salt(generateSalt())
+{
+    hashedPassword = crypt(password.c_str(), salt.c_str());
+}
 
-PasswordHash::PasswordHash(const std::string& password, const std::string& passwordSalt)
-// ReSharper disable once CppMemberInitializersOrder
-    : salt(passwordSalt) , hashedPassword(crypt(password.c_str(), salt.c_str())) {}
+PasswordHash::PasswordHash(const std::string& password, std::string passwordSalt)
+    : salt(std::move(passwordSalt))
+{
+    hashedPassword = crypt(password.c_str(), salt.c_str());
+}
+
 
 std::ostream& operator<<(std::ostream& os, const PasswordHash& hashedPassword) {
     os << hashedPassword.salt << hashedPassword.hashedPassword;

@@ -8,7 +8,7 @@ class PasswordHash {
     static std::string generateSalt();
 public:
     explicit PasswordHash(const std::string&);
-    PasswordHash(const std::string&, const std::string&);
+    PasswordHash(const std::string&, std::string );
     [[nodiscard]] std::string getPasswordHash() const;
 
     [[nodiscard]] std::string getPasswordSalt() const;
