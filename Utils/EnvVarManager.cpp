@@ -13,7 +13,7 @@ int EnvVarManager::unset(const std::string & varKey) {
 }
 
 std::string EnvVarManager::getEnv(const std::string & varKey) {
-    const char* value = std::getenv(varKey.c_str());
+    const char* value = getenv(varKey.c_str());
     return value ? std::string(value) : "";
 }
 

@@ -43,16 +43,16 @@ std::tuple<std::string , std::string> promptUserDetails() {
 }
 
 int main() {
-    try {
-        initializeDatabase();
-    } catch (const std::exception&) {
-        return -1;
-    }
-    std::string command = promptCommand();
-    auto [username, password] = promptUserDetails();
-    // const Auth auth(username, password);
-    // auto currentUser = auth.createAccount(); // this works
-    const Auth auth2(username, password);
-    auto currentUser = auth2.login();
+    // try {
+    //     initializeDatabase();
+    // } catch (const std::exception&) {
+    //     return -1;
+    // }
+    // std::string command = promptCommand();
+    // auto [username, password] = promptUserDetails();
+    // // const Auth auth(username, password);
+    // // auto currentUser = auth.createAccount(); // this works
+    // const Auth auth2(username, password);
+    // auto currentUser = auth2.login();
     return 0;
 }
