@@ -1,8 +1,8 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <iostream>
 #include <pqxx/pqxx>
+#include <../User/User.h>
 
 class Database {
     std::unique_ptr<pqxx::connection> connection;
@@ -17,16 +17,15 @@ public:
 
     Database &operator=(const Database &) = delete;
 
-    static Database &getInstance();
+    [[nodiscard]] std::tuple<std::string, std::string> getLoginInformation(const std::string &) const;
+
+    static Database &getDatabaseInstance();
 
     static void setConnString(const std::string &);
 
-    void getVersion() const {
-        pqxx::work w(*connection);
-        const pqxx::row r = w.exec1("SELECT 1");
-        w.commit();
-        std::cout << r[0].as<int>() << std::endl;
-    }
+    void createAccount(const User& currentUser) const;
+
+    [[nodiscard]] int getCurrentUserId(const std::string&) const;
 };
 
 

@@ -6,7 +6,6 @@
 
 class EnvironmentReader {
     std::string filePath = "../.env";
-    std::map<std::string, std::string> envMap;
 
     EnvironmentReader();
 
@@ -17,7 +16,7 @@ public:
 
     static EnvironmentReader &getEnvReader();
 
-    std::string getConnString();
+    static std::string getConnString();
 };
 
 

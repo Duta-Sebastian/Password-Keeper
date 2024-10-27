@@ -66,6 +66,13 @@ add_executable(${PROJECT_NAME}
         EnvironmentReader/EnvironmentReader.h
         User/User.cpp
         User/User.h
+        Utils/PasswordHash.cpp
+        Utils/PasswordHash.h
+        Database/Auth.cpp
+        Database/Auth.h
+        Database/Auth.cpp
+        Utils/EnvVarManager.cpp
+        Utils/EnvVarManager.h
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -79,8 +86,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
-target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOUCE_DIR}/lib)
+target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE crypt)
+
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)

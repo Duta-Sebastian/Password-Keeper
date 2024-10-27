@@ -29,6 +29,12 @@ env:
   EXT_DIR: "ext"
   GEN_DIR: "generated"
 
+  DB_NAME: "password_keeper"
+  DB_USER: "user"
+  DB_PASSWORD: "temp"
+  DB_HOST: "localhost"
+  DB_PORT: "5433"
+
 defaults:
   run:
     # Use a bash shell, so we can use the same syntax for environment variable
