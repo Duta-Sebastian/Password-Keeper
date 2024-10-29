@@ -5,7 +5,7 @@
 
 #include "Database/Auth.h"
 #include "EnvironmentReader/EnvironmentReader.h"
-#include "User/User.h"
+#include "SHA256ALG/sha256.h"
 
 void initializeDatabase() {
     EnvironmentReader::getEnvReader();
@@ -33,7 +33,7 @@ std::string promptCommand() {
     return command;
 }
 
-std::tuple<std::string , std::string> promptUserDetails() {
+std::tuple<std::string, std::string> promptUserDetails() {
     std::string username, password;
     std::cout << "Enter username: ";
     std::cin >> username;
@@ -53,6 +53,11 @@ int main() {
     // // const Auth auth(username, password);
     // // auto currentUser = auth.createAccount(); // this works
     // const Auth auth2(username, password);
-    // auto currentUser = auth2.login();
+    // const auto currentUser = auth2.login();
+    // std::cout<<currentUser;
+    // SHA256 sha256;
+    // std::string a,b;
+    // std::cin>>a>>b;
+    // std::cout<<sha256(a)<<'\n'<<sha256(b);
     return 0;
 }

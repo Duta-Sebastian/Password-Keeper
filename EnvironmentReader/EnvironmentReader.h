@@ -1,7 +1,6 @@
 #ifndef ENVIRONMENTREADER_H
 #define ENVIRONMENTREADER_H
 
-#include <map>
 #include <string>
 
 class EnvironmentReader {

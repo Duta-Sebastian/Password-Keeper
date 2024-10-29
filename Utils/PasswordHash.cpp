@@ -1,25 +1,23 @@
 #include "PasswordHash.h"
 
 #include <random>
-#include <crypt.h>
 #include <string>
+#include "../SHA256ALG/sha256.h"
 #include <iomanip>
 #include <utility>
-// TODO: research ways to change crypt.h -> something with the same behaviour
-PasswordHash::PasswordHash(const std::string& password)
-    : salt(generateSalt())
-{
-    hashedPassword = crypt(password.c_str(), salt.c_str());
+
+PasswordHash::PasswordHash(const std::string &password)
+    : salt(generateSalt()) {
+    hashedPassword = hashPasswordWithSalt(password);
 }
 
-PasswordHash::PasswordHash(const std::string& password, std::string passwordSalt)
-    : salt(std::move(passwordSalt))
-{
-    hashedPassword = crypt(password.c_str(), salt.c_str());
+PasswordHash::PasswordHash(const std::string &password, std::string passwordSalt)
+    : salt(std::move(passwordSalt)) {
+    hashedPassword = hashPasswordWithSalt(password);
 }
 
 
-std::ostream& operator<<(std::ostream& os, const PasswordHash& hashedPassword) {
+std::ostream &operator<<(std::ostream &os, const PasswordHash &hashedPassword) {
     os << hashedPassword.salt << hashedPassword.hashedPassword;
     return os;
 }
@@ -27,7 +25,7 @@ std::ostream& operator<<(std::ostream& os, const PasswordHash& hashedPassword) {
 std::string PasswordHash::generateSalt() {
     std::random_device rd;
     std::mt19937 generator(rd());
-    std::uniform_int_distribution<int> distribution(0, 255);
+    std::uniform_int_distribution distribution(0, 255);
 
     std::string salt;
     for (size_t i = 0; i < 16; ++i) {
@@ -45,4 +43,11 @@ std::string PasswordHash::getPasswordHash() const {
 
 std::string PasswordHash::getPasswordSalt() const {
     return this->salt;
+}
+
+std::string PasswordHash::hashPasswordWithSalt(const std::string &password) const {
+    const auto passwordWithSalt = password + salt;
+    SHA256 sha256;
+    auto sha256string = sha256(passwordWithSalt);
+    return sha256string;
 }

@@ -38,7 +38,6 @@ include(FetchContent)
 
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-
 FetchContent_Declare(
         pq
         GIT_REPOSITORY https://git.postgresql.org/git/postgresql.git
@@ -73,14 +72,14 @@ add_executable(${PROJECT_NAME}
         Database/Auth.cpp
         Utils/EnvVarManager.cpp
         Utils/EnvVarManager.h
+        SHA256ALG/sha256.cpp
+        SHA256ALG/sha256.h
 )
 
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
-#target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS} ${PQXX_INCLUDE_DIRS})
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES} ${PQXX_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
@@ -88,8 +87,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE crypt)
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)

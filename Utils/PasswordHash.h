@@ -13,6 +13,8 @@ public:
 
     [[nodiscard]] std::string getPasswordSalt() const;
 
+    [[nodiscard]] std::string hashPasswordWithSalt(const std::string&) const;
+
     friend std::ostream& operator<<(std::ostream&, const PasswordHash&);
 };
 
