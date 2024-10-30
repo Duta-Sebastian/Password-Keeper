@@ -1,4 +1,3 @@
-#include <digestpp.hpp>
 #include <iostream>
 
 #include "Database/Database.h"
@@ -6,15 +5,19 @@
 
 #include "Database/Auth.h"
 #include "EnvironmentReader/EnvironmentReader.h"
+#include "Logger/Logger.h"
 
 void initializeDatabase() {
+    auto &logger = Logger::getInstance();
     EnvironmentReader::getEnvReader();
     try {
         const std::string connString = EnvironmentReader::getConnString();
         Database::setConnString(connString);
-    } catch (const std::exception &e) {
-        std::cerr << "Error initializing database connection: " << e.what() << std::endl;
-        throw;
+        Database::getDatabaseInstance();
+        logger.log(LogLevel::INFO, "Connected to database");
+    } catch (std::exception &e) {
+        logger.log(LogLevel::ERROR, "Error initializing database connection: " + std::string(e.what()) + '\n');
+        throw std::runtime_error("Error initializing database connection");
     }
 }
 
@@ -43,14 +46,16 @@ std::tuple<std::string, std::string> promptUserDetails() {
 }
 
 int main() {
+    Logger::create("Logs");
     try {
         initializeDatabase();
-    } catch (const std::exception&) {
-        return -1;
     }
-    std::string command = promptCommand();
-    auto [username, password] = promptUserDetails();
-    const Auth auth(username, password);
+    catch (...) {
+        return 1;
+    }
+    // std::string command = promptCommand();
+    // auto [username, password] = promptUserDetails();
+    // const Auth auth(username, password);
     // auto currentUser = auth.createAccount(); // this
     // std::cout<<currentUser;
     // const Auth auth2(username, password);

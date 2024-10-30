@@ -13,6 +13,10 @@ public:
 
     EnvironmentReader &operator=(const EnvironmentReader &) = delete;
 
+    EnvironmentReader(EnvironmentReader &&) = delete;
+
+    EnvironmentReader &operator=(EnvironmentReader &&) = delete;
+
     static EnvironmentReader &getEnvReader();
 
     static std::string getConnString();

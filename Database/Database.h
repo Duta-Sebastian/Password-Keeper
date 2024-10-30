@@ -17,6 +17,10 @@ public:
 
     Database &operator=(const Database &) = delete;
 
+    Database(Database &&) = delete;
+
+    Database &operator=(Database &&) = delete;
+
     [[nodiscard]] std::tuple<std::string, std::string> getLoginInformation(const std::string &) const;
 
     static Database &getDatabaseInstance();

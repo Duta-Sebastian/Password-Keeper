@@ -8,11 +8,11 @@ Database::Database() {
     try {
         connection = std::make_unique<pqxx::connection>(connString);
         if (!connection->is_open()) {
-            throw std::runtime_error("Error opening database");
+            throw std::runtime_error("Database exists but a connection couldn't be established");
         }
-    } catch (const std::exception &e) {
-        std::cerr << "Connection error: " << e.what() << std::endl;
+    } catch (const std::exception &) {
         connection = nullptr;
+        throw ;
     }
 }
 

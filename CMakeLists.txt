@@ -72,6 +72,8 @@ add_executable(${PROJECT_NAME}
         Database/Auth.cpp
         Utils/EnvVarManager.cpp
         Utils/EnvVarManager.h
+        Logger/Logger.cpp
+        Logger/Logger.h
 )
 
 include(cmake/CompilerFlags.cmake)
