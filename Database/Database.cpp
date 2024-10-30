@@ -20,6 +20,7 @@ Database::~Database() {
     if (connection) {
         connection->close();
     }
+    connection = nullptr;
 }
 
 Database &Database::getDatabaseInstance() {

@@ -33,7 +33,7 @@ env:
   DB_USER: "user"
   DB_PASSWORD: "temp"
   DB_HOST: "localhost"
-  DB_PORT: "5433"
+  DB_PORT: "5432"
 
 defaults:
   run:
@@ -194,7 +194,11 @@ jobs:
         with:
           custom_flags: ${{ matrix.cmake_flags }}
           warnings_as_errors: 'ON'
-
+      - name: Run Docker Compose
+        run: |
+          cd ./infrastructure
+          docker compose up
+          sleep 10  # Wait for PostgreSQL to be ready
       - name: Build
         run: |
           bash ./scripts/cmake.sh build -t ${{ env.BUILD_TYPE }}
@@ -219,7 +223,6 @@ jobs:
           name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
           path: ${{ env.ZIP_NAME }}
           retention-days: 30
-
       - name: Runtime checks
         uses: ./.github/actions/runtime-checks
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <utility>
 #include <filesystem>
+#include <sstream>
 std::unique_ptr<Logger, Logger::Deleter> Logger::instance = nullptr;
 std::once_flag Logger::initFlag;
 
@@ -26,8 +27,7 @@ Logger::Logger(std::string folderName): folderName(std::move(folderName)), done(
 
     create_directory(currentPath);
 
-    const std::string fileName = currentPath.string() / std::filesystem::path(generateTimestampedFilename());
-    const std::filesystem::path filePath(fileName);
+    const auto filePath = currentPath.string() / std::filesystem::path(generateTimestampedFilename());
 
     logFile.open(filePath, std::ios::out | std::ios::app);
     loggingThread = std::thread(&Logger::processEntries, this);

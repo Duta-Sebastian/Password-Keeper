@@ -17,7 +17,7 @@ void initializeDatabase() {
         logger.log(LogLevel::INFO, "Connected to database");
     } catch (std::exception &e) {
         logger.log(LogLevel::ERROR, "Error initializing database connection: " + std::string(e.what()) + '\n');
-        throw std::runtime_error("Error initializing database connection");
+        throw std::runtime_error("Error initializing database connection" + std::string(e.what()) + '\n');
     }
 }
 
@@ -51,13 +51,13 @@ int main() {
         initializeDatabase();
     }
     catch (...) {
-        return 1;
+        throw ;
     }
-    // std::string command = promptCommand();
-    // auto [username, password] = promptUserDetails();
-    // const Auth auth(username, password);
-    // auto currentUser = auth.createAccount(); // this
-    // std::cout<<currentUser;
+    std::string command = promptCommand();
+    auto [username, password] = promptUserDetails();
+    const Auth auth(username, password);
+    const auto currentUser = auth.createAccount(); // this
+    std::cout<<currentUser;
     // const Auth auth2(username, password);
     // const auto currentUser = auth2.login();
     // std::cout<<currentUser;

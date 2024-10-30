@@ -18,7 +18,7 @@ EnvironmentReader::EnvironmentReader() {
     }
 }
 
-EnvironmentReader &EnvironmentReader::getEnvReader() {
+EnvironmentReader& EnvironmentReader::getEnvReader() {
     static EnvironmentReader envReader;
     return envReader;
 }
