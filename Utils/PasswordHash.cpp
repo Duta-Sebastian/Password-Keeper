@@ -2,8 +2,7 @@
 
 #include <random>
 #include <string>
-#include "../SHA256ALG/sha256.h"
-#include <iomanip>
+#include <digestpp.hpp>
 #include <utility>
 
 PasswordHash::PasswordHash(const std::string &password)
@@ -45,9 +44,7 @@ std::string PasswordHash::getPasswordSalt() const {
     return this->salt;
 }
 
-std::string PasswordHash::hashPasswordWithSalt(const std::string &password) const {
+std::string PasswordHash::hashPasswordWithSalt(const std::string & password) const {
     const auto passwordWithSalt = password + salt;
-    SHA256 sha256;
-    auto sha256string = sha256(passwordWithSalt);
-    return sha256string;
+    return digestpp::sha512().absorb(passwordWithSalt).hexdigest();
 }

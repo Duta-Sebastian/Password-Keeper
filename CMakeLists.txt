@@ -72,14 +72,13 @@ add_executable(${PROJECT_NAME}
         Database/Auth.cpp
         Utils/EnvVarManager.cpp
         Utils/EnvVarManager.h
-        SHA256ALG/sha256.cpp
-        SHA256ALG/sha256.h
 )
 
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/include/digestpp)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
@@ -87,6 +86,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
+
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)

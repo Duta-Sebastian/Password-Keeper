@@ -1,3 +1,4 @@
+#include <digestpp.hpp>
 #include <iostream>
 
 #include "Database/Database.h"
@@ -5,7 +6,6 @@
 
 #include "Database/Auth.h"
 #include "EnvironmentReader/EnvironmentReader.h"
-#include "SHA256ALG/sha256.h"
 
 void initializeDatabase() {
     EnvironmentReader::getEnvReader();
@@ -43,21 +43,18 @@ std::tuple<std::string, std::string> promptUserDetails() {
 }
 
 int main() {
-    // try {
-    //     initializeDatabase();
-    // } catch (const std::exception&) {
-    //     return -1;
-    // }
-    // std::string command = promptCommand();
-    // auto [username, password] = promptUserDetails();
-    // // const Auth auth(username, password);
-    // // auto currentUser = auth.createAccount(); // this works
+    try {
+        initializeDatabase();
+    } catch (const std::exception&) {
+        return -1;
+    }
+    std::string command = promptCommand();
+    auto [username, password] = promptUserDetails();
+    const Auth auth(username, password);
+    // auto currentUser = auth.createAccount(); // this
+    // std::cout<<currentUser;
     // const Auth auth2(username, password);
     // const auto currentUser = auth2.login();
     // std::cout<<currentUser;
-    // SHA256 sha256;
-    // std::string a,b;
-    // std::cin>>a>>b;
-    // std::cout<<sha256(a)<<'\n'<<sha256(b);
     return 0;
 }
