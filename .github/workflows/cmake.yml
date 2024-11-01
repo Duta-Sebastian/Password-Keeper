@@ -175,6 +175,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Install PostgreSQL
+        if: matrix.os == 'ubuntu-22.04' || matrix.os == 'macos-14'
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql postgresql-contrib
+            sudo service postgresql start
+          elif [[ "${{ matrix.os }}" == "macos-14" ]]; then
+            brew update
+            brew install postgresql
+            brew services start postgresql
+          elif [[ "${{ matrix.os }}" == "windows-2022" ]]; then
+            choco install postgresql -y
+            pg_ctl -D "C:\Program Files\PostgreSQL\13\data" start
+          fi
+
       - name: Set timestamp and zip name
         run: |
           echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}

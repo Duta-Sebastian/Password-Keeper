@@ -38,13 +38,6 @@ include(FetchContent)
 
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-FetchContent_Declare(
-        pq
-        GIT_REPOSITORY https://git.postgresql.org/git/postgresql.git
-        GIT_TAG master
-)
-
-FetchContent_MakeAvailable(pq)
 
 FetchContent_Declare(
      pqxx
@@ -56,6 +49,7 @@ FetchContent_MakeAvailable(pqxx)
 
 
 ###############################################################################
+find_package(PostgreSQL)
 ###############################################################################
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
@@ -81,9 +75,6 @@ include(cmake/CompilerFlags.cmake)
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/include/digestpp)
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${PQ_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PQ_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/lib)

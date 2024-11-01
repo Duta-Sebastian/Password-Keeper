@@ -13,7 +13,7 @@ User Auth::createAccount() const {
         database.createAccount(currentUser);
         currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
         return currentUser;
-    } catch (const std::exception &e) {
+    } catch (std::exception&) {
         throw;
     }
 }
@@ -29,7 +29,7 @@ User Auth::login() const {
             return currentUser;
         }
         throw std::invalid_argument("Wrong password");
-    } catch (const std::exception &e) {
+    } catch (std::exception&) {
         throw;
     }
 }

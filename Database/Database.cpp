@@ -28,8 +28,8 @@ Database &Database::getDatabaseInstance() {
     return databaseInstance;
 }
 
-void Database::setConnString(const std::string &connString) {
-    Database::connString = connString;
+void Database::setConnString(const std::string &connectionString) {
+    connString = connectionString;
 }
 
 void Database::createAccount(const User &currentUser) const {
