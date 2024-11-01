@@ -76,7 +76,7 @@ include(cmake/CompilerFlags.cmake)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/include/digestpp)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${pqxx_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${pqxx_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
 
