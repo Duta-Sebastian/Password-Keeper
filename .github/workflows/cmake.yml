@@ -111,13 +111,9 @@ jobs:
             cxx: clang++-18
             clang_ver: "18"
             clang_ver_full: "18.1.8"
-            name: "MSan: Ubuntu 22.04 Clang 18"
-            cmake_flags: "-DUSE_MSAN=ON"
+            name: "Ubuntu 22.04 Clang 18"
             cmake_generator: Ninja
-            # This env runs memory sanitizers
-            runs_msan: true
-            env:
-              RUNS_MSAN: true
+            # This env was supposed to run memory sanitizers, but we cannot use them as pqxx doesn't accept memory sanitizers
           - os: ubuntu-22.04
             c: gcc-12
             cxx: g++-12

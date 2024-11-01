@@ -39,18 +39,12 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
-set(pqxx_BUILD_TESTS OFF CACHE BOOL "Build tests for pqxx" FORCE)
-
 FetchContent_Declare(
      pqxx
      GIT_REPOSITORY https://github.com/jtv/libpqxx.git
      GIT_TAG 7.9.2
 )
 FetchContent_MakeAvailable(pqxx)
-if(DEFINED ENV{RUNS_MSAN})
-    target_compile_options(pqxx PRIVATE "-fsanitize=memory,undefined;-fsanitize-recover=memory,undefined;-fsanitize-memory-track-origins")
-    target_link_options(pqxx PRIVATE "-fsanitize=memory,undefined;-fsanitize-recover=memory,undefined;-fsanitize-memory-track-origins;-Wl,-rpath,tools/llvm-project/build/lib")
-endif()
 
 ###############################################################################
 find_package(PostgreSQL)
