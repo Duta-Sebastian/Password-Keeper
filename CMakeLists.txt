@@ -44,6 +44,7 @@ FetchContent_Declare(
      GIT_REPOSITORY https://github.com/jtv/libpqxx.git
      GIT_TAG 7.9.2
 )
+set(pqxx_BUILD_TEST OFF)
 FetchContent_MakeAvailable(pqxx)
 
 
