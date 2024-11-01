@@ -39,12 +39,13 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
+set(pqxx_BUILD_TESTS OFF CACHE BOOL "Build tests for pqxx" FORCE)
+
 FetchContent_Declare(
      pqxx
      GIT_REPOSITORY https://github.com/jtv/libpqxx.git
      GIT_TAG 7.9.2
 )
-set(pqxx_BUILD_TEST OFF)
 FetchContent_MakeAvailable(pqxx)
 
 

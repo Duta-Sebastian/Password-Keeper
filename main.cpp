@@ -53,11 +53,13 @@ int main() {
     catch (...) {
         throw ;
     }
-    std::string command = promptCommand();
+    const std::string command = promptCommand();
     auto [username, password] = promptUserDetails();
     const Auth auth(username, password);
-    const auto currentUser = auth.createAccount(); // this
-    std::cout<<currentUser;
+    std::optional<User> currentUser;
+    if(command == "Login") currentUser = auth.login();
+    else currentUser = auth.createAccount();
+    std::cout<<*currentUser;
     // const Auth auth2(username, password);
     // const auto currentUser = auth2.login();
     // std::cout<<currentUser;
