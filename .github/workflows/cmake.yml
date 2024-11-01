@@ -29,11 +29,11 @@ env:
   EXT_DIR: "ext"
   GEN_DIR: "generated"
 
-  DB_NAME: "password_keeper"
-  DB_USER: "user"
-  DB_PASSWORD: "temp"
-  DB_HOST: "localhost"
-  DB_PORT: "5432"
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PORT: ${{ secrets.DB_PORT }}
 
 defaults:
   run:
@@ -194,11 +194,6 @@ jobs:
         with:
           custom_flags: ${{ matrix.cmake_flags }}
           warnings_as_errors: 'ON'
-      - name: Run Docker Compose
-        run: |
-          cd ./infrastructure
-          docker compose up
-          sleep 10  # Wait for PostgreSQL to be ready
       - name: Build
         run: |
           bash ./scripts/cmake.sh build -t ${{ env.BUILD_TYPE }}
