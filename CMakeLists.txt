@@ -74,6 +74,10 @@ add_executable(${PROJECT_NAME}
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
+if(DEFINED ENV{RUNS_MSAN})
+target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=memory,undefined;-fsanitize-recover=memory,undefined;-fsanitize-memory-track-origins")
+target_link_options(${PROJECT_NAME} PRIVATE "-fsanitize=memory,undefined;-fsanitize-recover=memory,undefined;-fsanitize-memory-track-origins;-Wl,-rpath,tools/llvm-project/build/lib")
+endif()
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/include/digestpp)
 
