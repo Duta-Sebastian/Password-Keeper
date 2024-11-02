@@ -2,6 +2,10 @@
 #include <fstream>
 #include "../Database/Database.h"
 #include "../Utils/EnvVarManager.h"
+#include <filesystem>
+#include <iostream>
+
+#include "../Logger/Logger.h"
 
 EnvironmentReader::EnvironmentReader() {
     std::ifstream file(filePath);
@@ -24,21 +28,34 @@ EnvironmentReader& EnvironmentReader::getEnvReader() {
 }
 
 std::string EnvironmentReader::getConnString() {
-    if (EnvVarManager::get("DB_HOST").empty())
+    auto &logger = Logger::getInstance();
+    if (EnvVarManager::get("DB_HOST").empty()) {
+        logger.log(LogLevel::LOG_ERROR, "DB_HOST not set");
         throw std::invalid_argument("Environment variable DB_HOST is not set");
-    if (EnvVarManager::get("DB_NAME").empty())
+    }
+    if (EnvVarManager::get("DB_NAME").empty()) {
+        logger.log(LogLevel::LOG_ERROR, "DB_NAME not set");
         throw std::invalid_argument("Environment variable DB_NAME is not set");
-    if (EnvVarManager::get("DB_USER").empty())
+    }
+    if (EnvVarManager::get("DB_USER").empty()) {
+        logger.log(LogLevel::LOG_ERROR, "DB_USER not set");
         throw std::invalid_argument("Environment variable DB_USER is not set");
-    if (EnvVarManager::get("DB_PASSWORD").empty())
+    }
+    if (EnvVarManager::get("DB_PASSWORD").empty()) {
+        logger.log(LogLevel::LOG_ERROR, "DB_PASSWORD not set");
         throw std::invalid_argument(
-            "Environment variable DB_PASSWORD is not set");
-    if (EnvVarManager::get("DB_PORT").empty())
+                "Environment variable DB_PASSWORD is not set");
+    }
+    if (EnvVarManager::get("DB_PORT").empty()) {
+        logger.log(LogLevel::LOG_ERROR, "DB_PORT not set");
         throw std::invalid_argument("Environment variable DB_PORT is not set");
+    }
+
     std::string connString =
             "dbname=" + EnvVarManager::get("DB_NAME") + " user=" +
                 EnvVarManager::get("DB_USER")
             + " password=" + EnvVarManager::get("DB_PASSWORD") + " host="
             + EnvVarManager::get("DB_HOST") + " port=" + EnvVarManager::get("DB_PORT");
+    logger.log(LogLevel::INFO, "Connection string set");
     return connString;
 }

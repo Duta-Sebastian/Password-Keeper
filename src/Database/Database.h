@@ -2,7 +2,7 @@
 #define DATABASE_H
 
 #include <pqxx/pqxx>
-#include <../User/User.h>
+#include "../User/User.h"
 
 class Database {
     std::unique_ptr<pqxx::connection> connection;

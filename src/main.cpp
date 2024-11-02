@@ -1,7 +1,5 @@
 #include <iostream>
-
 #include "Database/Database.h"
-#include <pqxx/pqxx>
 
 #include "Database/Auth.h"
 #include "EnvironmentReader/EnvironmentReader.h"
@@ -16,7 +14,7 @@ void initializeDatabase() {
         Database::getDatabaseInstance();
         logger.log(LogLevel::INFO, "Connected to database");
     } catch (std::exception &e) {
-        logger.log(LogLevel::ERROR, "Error initializing database connection: " + std::string(e.what()) + '\n');
+        logger.log(LogLevel::LOG_ERROR, "Error initializing database connection: " + std::string(e.what()) + '\n');
         throw std::runtime_error("Error initializing database connection" + std::string(e.what()) + '\n');
     }
 }
@@ -51,7 +49,9 @@ int main() {
         initializeDatabase();
     }
     catch (...) {
-        throw ;
+        auto &logger = Logger::getInstance();
+        logger.log(LogLevel::LOG_ERROR, "Critical error encountered, application exiting");
+        return 1;
     }
     const std::string command = promptCommand();
     auto [username, password] = promptUserDetails();

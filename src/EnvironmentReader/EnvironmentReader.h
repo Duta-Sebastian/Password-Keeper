@@ -4,7 +4,7 @@
 #include <string>
 
 class EnvironmentReader {
-    std::string filePath = "../.env";
+    std::string filePath = ".env";
 
     EnvironmentReader();
 

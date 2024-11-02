@@ -10,7 +10,7 @@ Database::Database() {
         if (!connection->is_open()) {
             throw std::runtime_error("Database exists but a connection couldn't be established");
         }
-    } catch (const std::exception &) {
+    } catch (const std::exception &e) {
         connection = nullptr;
         throw ;
     }

@@ -22,6 +22,13 @@ User::User(const User &otherUser): passwordHash(otherUser.passwordHash) {
     this->userId = otherUser.userId;
 }
 
+User& User::operator=(const User &otherUser) { // NOLINT(*-use-equals-default)
+    this->username = otherUser.username;
+    this->userId = otherUser.userId;
+    this->passwordHash = otherUser.passwordHash;
+    return *this;
+}
+
 
 std::string User::getUsername() const {
     return this->username;

@@ -23,12 +23,12 @@ Logger &Logger::getInstance() {
 }
 
 Logger::Logger(std::string folderName): folderName(std::move(folderName)), done(false) {
-    const auto currentPath = std::filesystem::current_path() / std::filesystem::path(folderName);
+    const auto currentPath = std::filesystem::current_path() / std::filesystem::path(this->folderName);
 
     create_directory(currentPath);
 
     const auto filePath = currentPath.string() / std::filesystem::path(generateTimestampedFilename());
-
+    std::cout<<filePath.string()<<std::endl;
     logFile.open(filePath, std::ios::out | std::ios::app);
     loggingThread = std::thread(&Logger::processEntries, this);
 }
@@ -54,7 +54,7 @@ void Logger::log(const LogLevel logLevel, const std::string &message) {
             break;
         case LogLevel::WARNING: levelStr = "[WARNING]";
             break;
-        case LogLevel::ERROR: levelStr = "[ERROR]";
+        case LogLevel::LOG_ERROR: levelStr = "[ERROR]";
             break;
         default: levelStr = "[INFO]";
             break;
@@ -77,11 +77,11 @@ void Logger::processEntries() {
     }
 }
 
-std::string Logger::generateTimestampedFilename() const {
+std::string Logger::generateTimestampedFilename() {
     const auto now = std::chrono::system_clock::now();
     const auto time = std::chrono::system_clock::to_time_t(now);
     std::ostringstream oss;
-    oss << folderName << "/log_"
+    oss << "log_"
             << std::put_time(std::localtime(&time), "%Y%m%d_%H%M%S")
             << ".log";
     return oss.str();

@@ -10,7 +10,7 @@
 enum class LogLevel {
   INFO,
   WARNING,
-  ERROR
+  LOG_ERROR
 };
 
 
@@ -36,7 +36,7 @@ class Logger {
 
   void processEntries();
 
-  std::string generateTimestampedFilename() const;
+  static std::string generateTimestampedFilename() ;
 
 protected:
   ~Logger();
