@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.26)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
 # for now, the project name is used as the executable name
 project(Password-Keeper-Test-Runner)
+set(TEST_PROJECT ${PROJECT_NAME} PARENT_SCOPE)
 # set(CMAKE_PROJECT_VERSION_MAJOR 0)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
@@ -33,6 +34,17 @@ include(cmake/Options.cmake)
 # )
 #
 # FetchContent_MakeAvailable(SomeLib)
+include(FetchContent)
+
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+
+FetchContent_Declare(
+        gtest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG main
+)
+FetchContent_MakeAvailable(gtest)
 ###############################################################################
 ###############################################################################
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
@@ -52,6 +64,7 @@ add_executable(${PROJECT_NAME}
         ../src/Utils/EnvVarManager.h
         ../src/Logger/Logger.cpp
         ../src/Logger/Logger.h
+        HashingTest.cpp
 )
 include(cmake/CompilerFlags.cmake)
 

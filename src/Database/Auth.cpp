@@ -25,7 +25,7 @@ User Auth::login() const {
             hashedInputPassword.getPasswordHash() == storedPasswordHash) {
             auto currentUser = User(username, hashedInputPassword);
             currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
-            std::cout << "login successful";
+
             return currentUser;
         }
         throw std::invalid_argument("Wrong password");

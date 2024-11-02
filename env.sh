@@ -1,0 +1,1 @@
+export RUNS_TESTS=1

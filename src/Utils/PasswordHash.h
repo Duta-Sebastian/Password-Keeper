@@ -5,7 +5,6 @@
 class PasswordHash {
     std::string hashedPassword;
     std::string salt;
-    static std::string generateSalt();
 public:
     explicit PasswordHash(const std::string&);
     PasswordHash(const std::string&, std::string );
@@ -14,6 +13,8 @@ public:
     [[nodiscard]] std::string getPasswordSalt() const;
 
     [[nodiscard]] std::string hashPasswordWithSalt(const std::string&) const;
+
+    static std::string generateSalt();
 
     friend std::ostream& operator<<(std::ostream&, const PasswordHash&);
 };

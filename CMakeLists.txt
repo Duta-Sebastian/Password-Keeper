@@ -18,14 +18,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(pqxx)
 
-FetchContent_Declare(
-        gtest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG main
-)
-
-FetchContent_MakeAvailable(gtest)
 find_package(PostgreSQL)
 
 add_subdirectory(src)
+if(DEFINED ENV{RUNS_TESTS})
 add_subdirectory(tests)
+endif ()

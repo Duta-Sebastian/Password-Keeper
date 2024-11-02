@@ -1,4 +1,6 @@
 #include "User.h"
+
+#include <iostream>
 #include <utility>
 
 #include "../Logger/Logger.h"
@@ -31,10 +33,8 @@ User& User::operator=(const User &otherUser) { // NOLINT(*-use-equals-default)
 }
 
 User::~User() {
-    auto &logger = Logger::getInstance();
-    logger.log(LogLevel::INFO, "User::~User");
+    std::cout<<"User::~User()"<<std::endl;
 }
-
 
 std::string User::getUsername() const {
     return this->username;
