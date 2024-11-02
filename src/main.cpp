@@ -45,11 +45,12 @@ std::tuple<std::string, std::string> promptUserDetails() {
 
 int main() {
     Logger::create("Logs");
+    auto &logger = Logger::getInstance();
+    logger.log(LogLevel::INFO, "Application started");
     try {
         initializeDatabase();
     }
     catch (...) {
-        auto &logger = Logger::getInstance();
         logger.log(LogLevel::LOG_ERROR, "Critical error encountered, application exiting");
         return 1;
     }
@@ -60,8 +61,9 @@ int main() {
     if(command == "Login") currentUser = auth.login();
     else currentUser = auth.createAccount();
     std::cout<<*currentUser;
-    // const Auth auth2(username, password);
-    // const auto currentUser = auth2.login();
-    // std::cout<<currentUser;
+    std::cout<<auth;
+    const auto &database = Database::getDatabaseInstance();
+    std::cout<<database;
+    std::cout<<logger;
     return 0;
 }

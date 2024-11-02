@@ -14,6 +14,7 @@ public:
     User(std::string, PasswordHash);
     User(const User&);
     User& operator=(const User&);
+    ~User();
     friend std::ostream& operator<<(std::ostream& os, const User& user);
     [[nodiscard]] std::string getUsername() const;
     [[nodiscard]] std::string getPasswordHash() const;

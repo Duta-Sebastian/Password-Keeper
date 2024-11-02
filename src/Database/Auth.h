@@ -14,6 +14,8 @@ public:
     [[nodiscard]] User createAccount() const;
 
     [[nodiscard]] User login() const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Auth &auth);
 };
 
 

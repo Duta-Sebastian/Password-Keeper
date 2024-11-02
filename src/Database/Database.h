@@ -30,6 +30,8 @@ public:
     void createAccount(const User& currentUser) const;
 
     [[nodiscard]] int getCurrentUserId(const std::string&) const;
+
+    friend std::ostream& operator<<(std::ostream &, const Database&);
 };
 
 

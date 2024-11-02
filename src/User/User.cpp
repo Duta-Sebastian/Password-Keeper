@@ -1,6 +1,7 @@
 #include "User.h"
-#include <iostream>
 #include <utility>
+
+#include "../Logger/Logger.h"
 
 std::ostream &operator<<(std::ostream &os, const User &user) {
     os << "UserId:" << user.userId << '\n' <<
@@ -27,6 +28,11 @@ User& User::operator=(const User &otherUser) { // NOLINT(*-use-equals-default)
     this->userId = otherUser.userId;
     this->passwordHash = otherUser.passwordHash;
     return *this;
+}
+
+User::~User() {
+    auto &logger = Logger::getInstance();
+    logger.log(LogLevel::INFO, "User::~User");
 }
 
 

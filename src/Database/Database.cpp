@@ -79,5 +79,7 @@ int Database::getCurrentUserId(const std::string &username) const {
     }
 }
 
-
-
+std::ostream& operator<<(std::ostream & os, const Database & database) {
+    os << "Database connection string " << database.connection->connection_string() << std::endl;
+    return os;
+}

@@ -86,3 +86,8 @@ std::string Logger::generateTimestampedFilename() {
             << ".log";
     return oss.str();
 }
+
+std::ostream & operator<<(std::ostream & os, const Logger & logger) {
+    os<<"Logger has been created"<< logger.folderName<<std::endl;
+    return os;
+}

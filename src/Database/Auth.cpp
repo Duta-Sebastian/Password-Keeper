@@ -34,3 +34,8 @@ User Auth::login() const {
     }
 }
 
+std::ostream& operator<<(std::ostream& os, const Auth& auth) {
+    os<< "Auth: " << auth.username << " " << auth.password<<std::endl;
+    return os;
+}
+
