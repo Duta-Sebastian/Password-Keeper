@@ -269,6 +269,7 @@ jobs:
 
       - name: "Postgres setup"
         run: |
+          export PGPASSWORD=pipeline_test_password
           psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
                                                                                        id SERIAL PRIMARY KEY,
                                                                                        username VARCHAR(50) UNIQUE NOT NULL,
