@@ -28,7 +28,7 @@ Logger::Logger(std::string folderName): folderName(std::move(folderName)), done(
     create_directory(currentPath);
 
     const auto filePath = currentPath.string() / std::filesystem::path(generateTimestampedFilename());
-    std::cout<<filePath.string()<<std::endl;
+
     logFile.open(filePath, std::ios::out | std::ios::app);
     loggingThread = std::thread(&Logger::processEntries, this);
 }
