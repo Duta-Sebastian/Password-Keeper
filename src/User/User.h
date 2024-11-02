@@ -12,8 +12,10 @@ class User {
 public:
     User(std::string, const std::string&);
     User(std::string, PasswordHash);
+    User(int, std::string, const std::string &, std::string);
     User(const User&);
     User& operator=(const User&);
+    bool operator==(const User &) const;
     ~User();
     friend std::ostream& operator<<(std::ostream& os, const User& user);
     [[nodiscard]] std::string getUsername() const;

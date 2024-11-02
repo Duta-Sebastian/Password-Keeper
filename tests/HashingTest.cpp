@@ -1,4 +1,4 @@
-#include <algorithm/sha2.hpp>
+#include <digestpp.hpp>
 #include <gtest/gtest.h>
 
 #include "../src/User/User.h"

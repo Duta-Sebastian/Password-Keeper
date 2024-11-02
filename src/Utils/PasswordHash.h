@@ -7,7 +7,11 @@ class PasswordHash {
     std::string salt;
 public:
     explicit PasswordHash(const std::string&);
-    PasswordHash(const std::string&, std::string );
+
+    bool operator==(const PasswordHash &) const;
+
+    PasswordHash(const std::string&, std::string,bool generateHash = true);
+
     [[nodiscard]] std::string getPasswordHash() const;
 
     [[nodiscard]] std::string getPasswordSalt() const;

@@ -65,6 +65,7 @@ add_executable(${PROJECT_NAME}
         ../src/Logger/Logger.cpp
         ../src/Logger/Logger.h
         HashingTest.cpp
+        UserTest.cpp
 )
 include(cmake/CompilerFlags.cmake)
 
@@ -87,8 +88,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
-if (APPLE)
-    install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
-endif ()
 
 include(cmake/CopyHelper.cmake)
+set(ENV_FILE_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/.env")
+if(EXISTS "${ENV_FILE_SOURCE}")
+    copy_files(FILES .env)
+endif ()

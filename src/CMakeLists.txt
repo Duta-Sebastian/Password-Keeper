@@ -88,3 +88,7 @@ endif ()
 
 include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt)
+set(ENV_FILE_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/.env")
+if(EXISTS "${ENV_FILE_SOURCE}")
+    copy_files(FILES .env)
+endif ()

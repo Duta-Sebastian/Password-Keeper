@@ -79,6 +79,36 @@ int Database::getCurrentUserId(const std::string &username) const {
     }
 }
 
+int Database::getNumberOfUsers() const {
+    pqxx::work work(*connection);
+    try {
+        const auto queryResult = work.exec_params("SELECT COUNT(*) FROM users");
+        return queryResult[0][0].as<int>();
+    }
+    catch (const std::exception &e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+User Database::getUserByUsername(std::string &username) const {
+    pqxx::work work(*connection);
+    try {
+        const auto queryResult = work.exec_params("SELECT id, username, passwordSalt, passwordHash FROM users"
+                                                  " WHERE username = $1", username);
+        const int _userId = queryResult[0][0].as<int>();
+        const auto _username = queryResult[0][1].as<std::string>();
+        const auto _passwordSalt = queryResult[0][2].as<std::string>();
+        const auto _passwordHash = queryResult[0][3].as<std::string>();
+        return {_userId, _username, _passwordHash,
+            _passwordSalt};
+    }
+    catch (const std::exception &e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+        throw;
+    }
+}
+
 std::ostream& operator<<(std::ostream & os, const Database & database) {
     os << "Database connection string " << database.connection->connection_string() << std::endl;
     return os;

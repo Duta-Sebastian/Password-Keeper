@@ -10,11 +10,16 @@ PasswordHash::PasswordHash(const std::string &password)
     hashedPassword = hashPasswordWithSalt(password);
 }
 
-PasswordHash::PasswordHash(const std::string &password, std::string passwordSalt)
-    : salt(std::move(passwordSalt)) {
-    hashedPassword = hashPasswordWithSalt(password);
+bool PasswordHash::operator==(const PasswordHash & other) const {
+    return this->hashedPassword == other.hashedPassword && this->salt == other.salt;
 }
 
+PasswordHash::PasswordHash(const std::string &password, std::string passwordSalt, const bool generateHash)
+    : salt(std::move(passwordSalt)) {
+    if(generateHash)
+        hashedPassword = hashPasswordWithSalt(password);
+    else hashedPassword = password;
+}
 
 std::ostream &operator<<(std::ostream &os, const PasswordHash &hashedPassword) {
     os << hashedPassword.salt << hashedPassword.hashedPassword;

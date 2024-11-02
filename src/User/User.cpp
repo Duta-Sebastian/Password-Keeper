@@ -20,6 +20,9 @@ User::User(std::string username, PasswordHash passwordHash)
     : username(std::move(username)), passwordHash(std::move(passwordHash)), userId(-1) {
 }
 
+User::User(const int userId, std::string username, const std::string &passwordHash, std::string passwordSalt)
+    : username(std::move(username)), passwordHash(passwordHash, std::move(passwordSalt), false), userId(userId) {}
+
 User::User(const User &otherUser): passwordHash(otherUser.passwordHash) {
     this->username = otherUser.username;
     this->userId = otherUser.userId;
@@ -30,6 +33,10 @@ User& User::operator=(const User &otherUser) { // NOLINT(*-use-equals-default)
     this->userId = otherUser.userId;
     this->passwordHash = otherUser.passwordHash;
     return *this;
+}
+
+bool User::operator==(const User &other) const {
+    return this->username == other.username && this->userId == other.userId && this->passwordHash == other.passwordHash;
 }
 
 User::~User() {
