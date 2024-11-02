@@ -13,7 +13,11 @@ User Auth::createAccount() const {
         database.createAccount(currentUser);
         currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
         return currentUser;
-    } catch (std::exception&) {
+    }
+    catch (pqxx::unique_violation&) {
+        throw ;
+    }
+    catch (std::exception&) {
         throw;
     }
 }

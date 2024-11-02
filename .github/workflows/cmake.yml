@@ -29,6 +29,12 @@ env:
   EXT_DIR: "ext"
   GEN_DIR: "generated"
 
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+
 defaults:
   run:
     # Use a bash shell, so we can use the same syntax for environment variable
@@ -80,30 +86,11 @@ jobs:
       attestations: write
       contents: write
       id-token: write
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: pipeline_test_user
-          POSTGRES_PASSWORD: pipeline_test_password
-          POSTGRES_DB: pipeline_test_password_keeper
-        options: >-
-          --health-cmd "pg_isready -U pipeline_test_user"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
 
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
       VSCMD_SKIP_SENDTELEMETRY: 1
-      DB_HOST: localhost
-      DB_NAME: pipeline_test_password_keeper
-      DB_USER: pipeline_test_user
-      DB_PASSWORD: pipeline_test_password
-      DB_PORT: 5432
 
       # NOTE: replace with another version if this one does not work
       # For more versions, see https://winlibs.com or
@@ -225,26 +212,8 @@ jobs:
           name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
           path: ${{ env.ZIP_NAME }}
           retention-days: 30
-
-      - name: "Postgres setup"
-        run: |
-          psql -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
-                                                                          id SERIAL PRIMARY KEY,
-                                                                          username VARCHAR(50) UNIQUE NOT NULL,
-                                                                          passwordSalt VARCHAR(150) NOT NULL,
-                                                                          passwordHash VARCHAR(150) NOT NULL
-                                                                          );"
-        env:
-          PGPASSWORD: pipeline_test_password
-
       - name: Runtime checks
         uses: ./.github/actions/runtime-checks
-        env:
-          DB_HOST: ${{ env.DB_HOST }}
-          DB_NAME: ${{ env.DB_NAME }}
-          DB_USER: ${{ env.DB_USER }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
-          DB_PORT: ${{ env.DB_PORT }}
 
       - name: Create release
         uses: ./.github/actions/create-release
@@ -306,8 +275,6 @@ jobs:
                                                                           passwordSalt VARCHAR(150) NOT NULL,
                                                                           passwordHash VARCHAR(150) NOT NULL
                                                                           );"
-        env:
-          PGPASSWORD: pipeline_test_password
 
       - name: "Run tests"
         env:

@@ -33,3 +33,29 @@ TEST_F(UserTest, NewAccountDetailsTest) {
     ASSERT_EQ(expectedUser, actualUser);
 }
 
+TEST_F(UserTest, NoDuplicateUsername) {
+    const std::string username = "NoDuplicateUsername";
+    const Auth auth(username,"test");
+    const auto expectedUser = auth.createAccount();
+    const Auth auth1(username,"test2");
+    // ReSharper disable once CppNoDiscardExpression
+    ASSERT_THROW(auth1.createAccount(),pqxx::unique_violation);
+}
+
+TEST_F(UserTest, TestLoginValidCredentialsShouldSucceed) {
+    const std::string username = "TestLoginValid";
+    const Auth auth(username,"test");
+    const auto expectedUser = auth.createAccount();
+    const Auth auth1(username,"test");
+    const auto actualUser = auth1.login();
+    ASSERT_EQ(expectedUser, actualUser);
+}
+
+TEST_F(UserTest, TestLoginInvalidCredentialsShouldFail) {
+    const std::string username = "LoginTestInvalid";
+    const Auth auth(username,"test");
+    const auto expectedUser = auth.createAccount();
+    const Auth auth1(username,"test1");
+    // ReSharper disable once CppNoDiscardExpression
+    ASSERT_THROW(auth1.login(), std::exception);
+}
