@@ -42,7 +42,12 @@ void Database::createAccount(const User &currentUser) const {
                          currentUser.getPasswordHash()
         );
         work.commit();
-    } catch (const std::exception &e) {
+    }
+    catch (const pqxx::unique_violation& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
+    catch (const std::exception &e) {
         std::cerr << "Exception: " << e.what() << std::endl;
         throw;
     }
