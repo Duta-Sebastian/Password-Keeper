@@ -45,6 +45,10 @@ FetchContent_Declare(
      GIT_TAG 7.9.2
 )
 FetchContent_MakeAvailable(pqxx)
+if(DEFINED ENV{RUNS_ASAN})
+    target_compile_options(pqxx PRIVATE "/fsanitize=address")
+    target_link_options(pqxx PRIVATE "/fsanitize=address")
+endif()
 
 ###############################################################################
 find_package(PostgreSQL)

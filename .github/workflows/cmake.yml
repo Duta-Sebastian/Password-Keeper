@@ -152,6 +152,8 @@ jobs:
             # cmake_generator: "Ninja Multi-Config"
             # This env runs address sanitizers
             runs_asan: true
+            env:
+              RUNS_ASAN: true
 
           - os: windows-2022
             c: gcc
