@@ -107,14 +107,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-22.04
-            c: clang-18
-            cxx: clang++-18
-            clang_ver: "18"
-            clang_ver_full: "18.1.8"
-            name: "Ubuntu 22.04 Clang 18"
-            cmake_generator: Ninja
-            # This env was supposed to run memory sanitizers, but we cannot use them as pqxx doesn't accept memory sanitizers
-          - os: ubuntu-22.04
             c: gcc-12
             cxx: g++-12
             name: "ASan: Ubuntu 22.04 GCC 12"
