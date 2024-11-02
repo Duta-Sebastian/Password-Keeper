@@ -269,12 +269,12 @@ jobs:
 
       - name: "Postgres setup"
         run: |
-          psql -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
-                                                                          id SERIAL PRIMARY KEY,
-                                                                          username VARCHAR(50) UNIQUE NOT NULL,
-                                                                          passwordSalt VARCHAR(150) NOT NULL,
-                                                                          passwordHash VARCHAR(150) NOT NULL
-                                                                          );"
+          psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
+                                                                                       id SERIAL PRIMARY KEY,
+                                                                                       username VARCHAR(50) UNIQUE NOT NULL,
+                                                                                       passwordSalt VARCHAR(150) NOT NULL,
+                                                                                       passwordHash VARCHAR(150) NOT NULL
+                                                                                       );"
 
       - name: "Run tests"
         env:
