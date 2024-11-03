@@ -21,8 +21,8 @@ on:
 
 env:
   BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
-  # NOTE: update executable name if it is changed in CMakeLists.txt
-  EXECUTABLE_NAME: "Password-Keeper"
+  SRC_EXECUTABLE_NAME: "Password-Keeper-src"
+  TEST_EXECUTABLE_NAME: "Password-Keeper-Test-Runner"
   INPUT_FILENAME: "tastatura.txt"
   BIN_DIR: "bin"       # update in cmake/Options.cmake:6 if changing name here
   BUILD_DIR: "build"
@@ -154,20 +154,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PostgreSQL
-        if: matrix.os == 'ubuntu-22.04' || matrix.os == 'macos-14'
-        run: |
-          if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
-            sudo apt-get update
-            sudo apt-get install -y postgresql postgresql-contrib
-            sudo service postgresql start
-          elif [[ "${{ matrix.os }}" == "macos-14" ]]; then
-            brew update
-            brew install postgresql
-            brew services start postgresql
-          elif [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            choco install postgresql -y
-            pg_ctl -D "C:\Program Files\PostgreSQL\13\data" start
-          fi
+        uses: ./.github/actions/install-postgres
 
       - name: Set timestamp and zip name
         run: |
@@ -256,7 +243,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           sudo apt-get update
-          sudo apt-get install -y postgresql postgresql-contrib
+          sudo apt-get install -y postgresql
 
       - name: "Install CMake and Ninja"
         run: |
@@ -286,4 +273,4 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
         run: |
           cd build
-          ./tests/Password-Keeper-Test-Runner --output-on-failure
+          ./tests/${{ env.TEST_EXECUTABLE_NAME }} --output-on-failure
