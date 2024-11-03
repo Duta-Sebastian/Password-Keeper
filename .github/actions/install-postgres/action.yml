@@ -26,3 +26,7 @@ runs:
       run: |
         choco install postgresql --version=17 -y
         pg_ctl -D "C:\Program Files\PostgreSQL\17\data" start
+        echo "Adding PostgreSQL to PATH"
+        setx PATH "%PATH%;C:\Program Files\PostgreSQL\17\bin"
+        pg_ctl --version
+        pg_ctl -D "C:\Program Files\PostgreSQL\17\data" start
