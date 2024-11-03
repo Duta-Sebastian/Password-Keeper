@@ -1,5 +1,5 @@
 #include "EnvVarManager.h"
-
+#include <iostream>
 std::string EnvVarManager::get(const std::string & varKey) {
     return getEnv(varKey);
 }
@@ -31,4 +31,9 @@ int EnvVarManager::unsetEnv(const std::string & varKey) {
 #else
     return unsetenv(varKey.c_str()) == 0;
 #endif
+}
+
+std::ostream & operator<<(std::ostream & os, const EnvVarManager& envVarManager) {
+    os<<"EnvVarManager\n"<<envVarManager.get("Test"); // NOLINT(*-static-accessed-through-instance)
+    return os;
 }

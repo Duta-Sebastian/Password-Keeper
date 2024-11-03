@@ -14,6 +14,7 @@ public:
     static std::string get(const std::string&);
     static int set(const std::string&, const std::string&);
     static int unset(const std::string&);
+    friend std::ostream& operator<<(std::ofstream&, EnvVarManager&);
 };
 
 

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <utility>
 #include <filesystem>
-#include <sstream>
 std::unique_ptr<Logger, Logger::Deleter> Logger::instance = nullptr;
 std::once_flag Logger::initFlag;
 
