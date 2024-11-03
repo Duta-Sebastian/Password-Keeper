@@ -31,7 +31,7 @@ public:
 
     [[nodiscard]] int getCurrentUserId(const std::string&) const;
 
-    int getNumberOfUsers() const;
+    [[nodiscard]] int getNumberOfUsers() const;
 
     User getUserByUsername(std::string &username) const;
 

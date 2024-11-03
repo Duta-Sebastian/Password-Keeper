@@ -1,2 +1,2 @@
 @echo off
-export RUNS_TESTS=1
+set RUNS_TESTS=1

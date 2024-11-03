@@ -7,8 +7,32 @@ Aceasta oferă funcționalitatea de a stoca și organiza parolele într-un mod e
 genera parole noi, personalizate, la cerere.
 
 ## Mentiuni
+1. Instalare PostgreSQL:
+   - Pentru a construi proiectul trebuie sa instalati mai intai [PostgreSQL](https://www.postgresql.org/download/) pe
+   calculatorul dumneavoastra.
+2. Folosirea aplicatiei local:
+    - Pentru a folosi aplicatia local trebuie sa instalati [Docker](https://docs.docker.com/engine/install/),sa folositi comanda
+      `docker compose up` in folderul [infrastructure](./infrastructure) din proiect, sa create un nou fisier numit `.env` in
+      folderul [src](./src) si sa il completati cu datale din [compose.yml](./infrastructure/compose.yaml) 
+      in modul prezentat in fisierul [.env.template](.env.template)
+3. Rularea testelor:
+    - Pentru a rula testele trebuie sa adaugati unul dintre fisierele [env.bat](env.bat) sau [env.sh](env.sh) (primul pentru
+      Windows, al doilea pentru sisteme POSIX) in setarile toolchain-ului pe care il folositi (`File | Settings | Build, Execution, Deployment | Toolchains`)
+      la rubrica `Environment File`. Testele se ruleaza ori ruland executabilul `cmake-build-debug/tests/Password-Keeper-Test-Runner`.
 
-In acest moment proiectul poate fi construit numai folosind WSL.
+## Pipeline
+Pipeline-ul CI/CD este configurat în [GitHub Actions](./.github/workflows/cmake.yml) și include mai multe etape pentru a asigura calitatea codului, compatibilitatea și funcționalitatea pe diferite platforme.
+
+Verificarea calității codului:
+Primele două etape validează corectitudinea codului și se asigură că nu generează warnings ( folosind `Cppcheck` si `Clang-Tidy` ).
+
+Testarea compatibilității pe multiple sisteme de operare:
+Următoarele cinci etape asigură rularea corectă a codului pe principalele sisteme de operare (Linux, macOS și Windows) și efectuează verificări de memorie folosind MSAN, ASAN și Valgrind, pentru a identifica posibile memory leaks și alte probleme legate de memorie.
+
+Rularea testelor funcționale:
+Ultima etapă rulează testele pentru a verifica dacă aplicația funcționează conform așteptărilor.
+
+În toate etapele care implică rularea aplicatiei este inclus un serviciu PostgreSQL pentru a permite rularea corectă a aplicației.
 
 ## Milestone #0
 
