@@ -5,6 +5,7 @@ on:
     branches: [ '*' ] # NOTE: replace/update with appropriate branch name(s)
     tags: [ '*' ]
   pull_request:
+    types: [closed]
     branches: [ '*' ] # NOTE: replace/update with appropriate branch name(s)
   workflow_dispatch:
     inputs:
