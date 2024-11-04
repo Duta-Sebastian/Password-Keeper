@@ -82,7 +82,7 @@ jobs:
     # concurrency:
     #   group: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 8
+    timeout-minutes: 15
     permissions:
       attestations: write
       contents: write
