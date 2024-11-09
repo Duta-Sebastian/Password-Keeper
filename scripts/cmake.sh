@@ -42,7 +42,8 @@ configure() {
     cmake -S "${SOURCE_DIR}" \
           -B "${BUILD_DIR}" \
           -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
-          -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
+          -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"\
+          -DSKIP_BUILD_TEST=ON\
           "${CMAKE_OPTS[@]}"
 }
 
@@ -73,7 +74,7 @@ build() {
       shift $((OPTIND-1))
     done
 
-    cmake --build "${BUILD_DIR}" --config "${BUILD_TYPE}" -j "${NPROC}" "$@" -DSKIP_BUILD_TEST=ON
+    cmake --build "${BUILD_DIR}" --config "${BUILD_TYPE}" -j "${NPROC}" "$@"
 }
 
 install() {
@@ -99,7 +100,7 @@ install() {
       esac
     done
 
-    cmake --install "${BUILD_DIR}" --config "${BUILD_TYPE}" --prefix "${INSTALL_DIR}" -DSKIP_BUILD_TEST=ON
+    cmake --install "${BUILD_DIR}" --config "${BUILD_TYPE}" --prefix "${INSTALL_DIR}"
 }
 
 
