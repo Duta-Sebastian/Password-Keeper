@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-include(cmake/Options.cmake)
-include(cmake/CopyHelper.cmake)
+set(PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
+set(CMAKE_HELPER_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(${CMAKE_HELPER_DIR}/Options.cmake)
+include(${CMAKE_HELPER_DIR}/CopyHelper.cmake)
 
 include(FetchContent)
 
@@ -19,6 +21,7 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/jtv/libpqxx.git
         GIT_TAG 7.9.2
         CMAKE_ARGS -DSKIP_BUILD_TEST=ON
+        include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 )
 FetchContent_MakeAvailable(pqxx)
 

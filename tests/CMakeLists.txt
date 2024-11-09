@@ -56,7 +56,7 @@ add_executable(${PROJECT_NAME}
         HashingTest.cpp
         UserTest.cpp
 )
-include(../cmake/CompilerFlags.cmake)
+include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../ext/include/digestpp)
@@ -77,4 +77,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 
-copy_files(FILES .env)
+if(EXISTS "${PROJECT_ROOT}/.env")
+    copy_files(FILES .env)
+endif ()
