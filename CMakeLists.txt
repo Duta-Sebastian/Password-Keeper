@@ -24,7 +24,6 @@ FetchContent_Declare(
         include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 )
 FetchContent_MakeAvailable(pqxx)
-
 find_package(PostgreSQL)
 
 option(RUN_TESTS "Run the test suites" OFF)

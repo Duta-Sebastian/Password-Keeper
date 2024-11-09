@@ -70,4 +70,7 @@ if (APPLE)
     install(FILES ${PROJECT_ROOT}/launcher.command DESTINATION ${DESTINATION_DIR})
 endif ()
 
-copy_files(OPTIONAL FILES tastatura.txt .env)
+copy_files(FILES tastatura.txt)
+if (EXISTS ${PROJECT_ROOT}/.env)
+    copy_files(FILES .env)
+endif ()

@@ -77,4 +77,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 
-copy_files(OPTIONAL FILES .env)
+if (EXISTS ${PROJECT_ROOT}/.env)
+    copy_files(FILES .env)
+endif ()
