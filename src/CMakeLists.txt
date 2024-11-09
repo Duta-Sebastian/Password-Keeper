@@ -8,13 +8,6 @@ set(SRC_PROJECT ${PROJECT_NAME} PARENT_SCOPE)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
-include(cmake/Options.cmake)
-
 ###############################################################################
 
 # external dependencies with FetchContent
@@ -35,14 +28,6 @@ include(cmake/Options.cmake)
 #
 # FetchContent_MakeAvailable(SomeLib)
 
-include(FetchContent)
-
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-
-FetchContent_MakeAvailable(pqxx)
-###############################################################################
-find_package(PostgreSQL)
 ###############################################################################
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
@@ -62,8 +47,7 @@ add_executable(${PROJECT_NAME}
         Logger/Logger.cpp
         Logger/Logger.h
 )
-include(cmake/CompilerFlags.cmake)
-
+include(../cmake/CompilerFlags.cmake)
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../ext/include/digestpp)
@@ -86,9 +70,5 @@ if (APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif ()
 
-include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt)
-set(ENV_FILE_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/.env")
-if(EXISTS "${ENV_FILE_SOURCE}")
-    copy_files(FILES .env)
-endif ()
+copy_files(FILES .env)

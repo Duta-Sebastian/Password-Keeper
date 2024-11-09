@@ -8,13 +8,6 @@ set(TEST_PROJECT ${PROJECT_NAME} PARENT_SCOPE)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
-include(cmake/Options.cmake)
-
 ###############################################################################
 
 # external dependencies with FetchContent
@@ -34,10 +27,6 @@ include(cmake/Options.cmake)
 # )
 #
 # FetchContent_MakeAvailable(SomeLib)
-include(FetchContent)
-
-set(FETCHCONTENT_QUIET OFF)
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
 FetchContent_Declare(
         gtest
@@ -67,8 +56,7 @@ add_executable(${PROJECT_NAME}
         HashingTest.cpp
         UserTest.cpp
 )
-include(cmake/CompilerFlags.cmake)
-
+include(../cmake/CompilerFlags.cmake)
 ###############################################################################
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../infrastructure)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../ext/include/digestpp)
@@ -89,8 +77,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 
-include(cmake/CopyHelper.cmake)
-set(ENV_FILE_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/.env")
-if(EXISTS "${ENV_FILE_SOURCE}")
-    copy_files(FILES .env)
-endif ()
+copy_files(FILES .env)

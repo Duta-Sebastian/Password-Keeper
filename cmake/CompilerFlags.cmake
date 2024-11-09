@@ -22,6 +22,6 @@ endif ()
 ###############################################################################
 
 # sanitizers
-include(cmake/CustomStdlibAndSanitizers.cmake)
+include(../cmake/CustomStdlibAndSanitizers.cmake)
 
 set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
