@@ -1,6 +1,5 @@
 # helper function to copy files to build directory and install directory without duplicating file names across commands
 function(copy_files)
-    message("here here ${PROJECT_ROOT}")
     set(options OPTIONAL FAST)
     set(oneValueArgs)
     set(multiValueArgs FILES DIRECTORY)
@@ -27,6 +26,6 @@ function(copy_files)
     endforeach ()
 
     # copy files and folders to install dir
-    install(FILES ${ARG_FILES} DESTINATION ${DESTINATION_DIR})
-    install(DIRECTORY ${ARG_DIRECTORY} DESTINATION ${DESTINATION_DIR})
+    install(FILES ${PROJECT_ROOT/ARG_FILES} DESTINATION ${DESTINATION_DIR})
+    install(DIRECTORY ${PROJECT_ROOT/ARG_DIRECTORY} DESTINATION ${DESTINATION_DIR})
 endfunction()
