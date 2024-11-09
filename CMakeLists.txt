@@ -24,19 +24,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(pqxx)
 find_package(PostgreSQL)
-if (TARGET pqxx)
-    # Custom compiler flags
-    message("Applying custom compiler flags for pqxx")
-    if (MSVC)
-        target_compile_options(pqxx PRIVATE /W4 /permissive- /wd4244 /wd4267 /wd4996 /external:anglebrackets /external:W0 /utf-8 /MP)
-    else ()
-        target_compile_options(pqxx PRIVATE -Wall -Wextra -pedantic)
-    endif ()
-
-    # Apply sanitizers
-    include(${CMAKE_HELPER_DIR}/CustomStdlibAndSanitizers.cmake)
-    set_custom_stdlib_and_sanitizers(pqxx true)
-endif ()
 
 option(RUN_TESTS "Run the test suites" OFF)
 
