@@ -1,5 +1,6 @@
 # helper function to copy files to build directory and install directory without duplicating file names across commands
 function(copy_files)
+    message("here here ${PROJECT_ROOT}")
     set(options OPTIONAL FAST)
     set(oneValueArgs)
     set(multiValueArgs FILES DIRECTORY)

@@ -67,7 +67,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE pqxx)
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 if (APPLE)
-    install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
+    install(FILES ${PROJECT_ROOT}/launcher.command DESTINATION ${DESTINATION_DIR})
 endif ()
 
 copy_files(FILES tastatura.txt)
