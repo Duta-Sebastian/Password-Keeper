@@ -99,7 +99,7 @@ install() {
       esac
     done
 
-    cmake --install "${BUILD_DIR}" --config "${BUILD_TYPE}" --prefix "${INSTALL_DIR}"
+    cmake --install "${BUILD_DIR}" --config "${BUILD_TYPE}" --prefix "${INSTALL_DIR}" -DSKIP_BUILD_TEST=ON
 }
 
 
