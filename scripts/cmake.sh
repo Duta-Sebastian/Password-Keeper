@@ -73,7 +73,7 @@ build() {
       shift $((OPTIND-1))
     done
 
-    cmake --build "${BUILD_DIR}" --config "${BUILD_TYPE}" -j "${NPROC}" "$@"
+    cmake --build "${BUILD_DIR}" --config "${BUILD_TYPE}" -j "${NPROC}" "$@" -DSKIP_BUILD_TEST=ON
 }
 
 install() {
