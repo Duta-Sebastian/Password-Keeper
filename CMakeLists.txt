@@ -11,8 +11,6 @@ set(CMAKE_HELPER_DIR "${PROJECT_ROOT}/cmake")
 include(${CMAKE_HELPER_DIR}/Options.cmake)
 include(${CMAKE_HELPER_DIR}/CopyHelper.cmake)
 
-set(SKIP_BUILD_TEST ON CACHE BOOL "Skip building tests for libpqxx" FORCE)
-
 include(FetchContent)
 
 set(FETCHCONTENT_QUIET OFF)
@@ -22,7 +20,6 @@ FetchContent_Declare(
         pqxx
         GIT_REPOSITORY https://github.com/jtv/libpqxx.git
         GIT_TAG 7.9.2
-        CMAKE_ARGS -DSKIP_BUILD_TEST=ON -DINSTALL_TEST=OFF
 )
 FetchContent_MakeAvailable(pqxx)
 

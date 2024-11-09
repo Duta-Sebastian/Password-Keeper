@@ -154,16 +154,16 @@ jobs:
             # cmake_flags:
             # cmake_generator: Ninja
 
-#          - os: windows-2022
-#            c: cl
-#            cxx: cl
-#            name: "ASan: Windows 2022 MSVC 19.41"
-#            cmake_flags: "-DUSE_ASAN=ON"
-#            # Ninja is not faster on MSVC because... MSVC
-#            # cmake_generator: "Ninja"
-#            # cmake_generator: "Ninja Multi-Config"
-#            # This env runs address sanitizers
-#            runs_asan: true
+          - os: windows-2022
+            c: cl
+            cxx: cl
+            name: "ASan: Windows 2022 MSVC 19.41"
+            cmake_flags: "-DUSE_ASAN=ON"
+            # Ninja is not faster on MSVC because... MSVC
+            # cmake_generator: "Ninja"
+            # cmake_generator: "Ninja Multi-Config"
+            # This env runs address sanitizers
+            runs_asan: true
 
           - os: windows-2022
             c: gcc
