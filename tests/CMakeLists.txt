@@ -24,3 +24,5 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 if (EXISTS ${PROJECT_ROOT}/.env)
     copy_files(FILES .env)
 endif ()
+
+add_test(NAME ${PROJECT_NAME}_tests COMMAND ${PROJECT_NAME})

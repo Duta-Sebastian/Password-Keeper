@@ -25,9 +25,9 @@ FetchContent_MakeAvailable(pqxx)
 
 find_package(PostgreSQL)
 
-option(RUN_TESTS "Run the test suites" OFF)
-
 add_subdirectory(src)
 if(RUN_TESTS)
-add_subdirectory(tests)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
 endif ()

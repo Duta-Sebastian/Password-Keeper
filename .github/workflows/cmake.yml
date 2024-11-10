@@ -296,4 +296,4 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
         run: |
           cd build
-          ./tests/${{ env.TEST_EXECUTABLE_NAME }} --output-on-failure
+          ctest
