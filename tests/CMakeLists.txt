@@ -17,7 +17,6 @@ add_executable(${PROJECT_NAME}
 )
 include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ../ext/include/digestpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SRC_PROJECT}_lib gtest gtest_main)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})

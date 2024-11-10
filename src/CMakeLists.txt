@@ -14,8 +14,11 @@ add_library(${PROJECT_NAME}_lib
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE
-        ../ext/include/digestpp
         ${pqxx_SOURCE_DIR}/include
+)
+
+target_include_directories(${PROJECT_NAME}_lib SYSTEM PUBLIC
+        ../ext/include/digestpp
 )
 
 target_include_directories(${PROJECT_NAME}_lib PUBLIC
