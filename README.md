@@ -18,7 +18,7 @@ genera parole noi, personalizate, la cerere.
 3. Rularea testelor:
     - Pentru a rula testele trebuie sa adaugati unul dintre fisierele [env.bat](env.bat) sau [env.sh](env.sh) (primul pentru
       Windows, al doilea pentru sisteme POSIX) in setarile toolchain-ului pe care il folositi (`File | Settings | Build, Execution, Deployment | Toolchains`)
-      la rubrica `Environment File`. Testele se ruleaza ori ruland executabilul `cmake-build-debug/tests/Password-Keeper-Test-Runner`.
+      la rubrica `Environment File`. Testele se ruleaza ori ruland executabilul `cmake-build-debug/tests/Password-Keeper-Test-Runner` ori ruland comanda ctest in folderul `cmake-build-debug`.
 
 ## Pipeline
 Pipeline-ul CI/CD este configurat în [GitHub Actions](./.github/workflows/cmake.yml) și include mai multe etape pentru a asigura calitatea codului, compatibilitatea și funcționalitatea pe diferite platforme.

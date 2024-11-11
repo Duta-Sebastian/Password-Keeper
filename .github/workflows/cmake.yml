@@ -296,4 +296,4 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
         run: |
           cd build
-          ctest
+          ctest --verbose --no-compress-output
