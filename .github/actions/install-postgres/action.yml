@@ -1,0 +1,27 @@
+name: 'Install PostgreSQL'
+description: 'Install PostgreSQL and its dependencies for each os'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install PostgreSQL on Linux
+      shell: bash
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql
+        sudo service postgresql start
+
+    - name: Install PostgreSQL on macOS
+      shell: bash
+      if: runner.os == 'macOS'
+      run: |
+        brew update
+        brew install postgresql
+        brew services start postgresql
+
+    - name: Install PostgreSQL on Windows
+      shell: bash
+      if: runner.os == 'Windows'
+      run: |
+        choco install postgresql --version=17 -y

@@ -2,13 +2,15 @@ option(WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
 option(USE_ASAN "Use Address Sanitizer" OFF)
 option(USE_MSAN "Use Memory Sanitizer" OFF)
 option(CMAKE_COLOR_DIAGNOSTICS "Enable color diagnostics" ON)
+option(RUN_TESTS "Run the test suites" OFF)
+
 
 # update name in .github/workflows/cmake.yml:27 when changing "bin" name here
 set(DESTINATION_DIR "bin")
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/install_dir" CACHE PATH "..." FORCE)
-endif()
+endif ()
 
 # disable sanitizers when releasing executables without explicitly requested debug info
 # use generator expressions to set flags correctly in both single and multi config generators
