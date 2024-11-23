@@ -1,3 +1,36 @@
+[ENG]
+# Password-Keeper
+## Project Description
+The Password Keeper application enables users to manage their passwords in a secure database.
+It offers functionality to efficiently and safely store and organize passwords, as well as the option to generate new, customized passwords on demand.
+
+## Notes
+1. PostgreSQL Installation:
+    - To build the project, you must first install [PostgreSQL](https://www.postgresql.org/download/) on your computer.
+2. Running the Application Locally:
+   - To use the application locally, you need to install [Docker](https://docs.docker.com/engine/install/), use the command
+   `docker compose up` in the project's [infrastructure](./infrastructure) folder, and create a new file named `.env` in the src folder.
+   Fill this file with the details from [compose.yml](./infrastructure/compose.yaml) , following the format described in the .env.template file.
+3. Running Tests:
+   - To run the tests, add either the env.bat or env.sh file (the former for Windows, the latter for POSIX systems)
+   to the environment file settings of your toolchain (File | Settings | Build, Execution, Deployment | Toolchains) under the Environment File section.
+   Tests can be run either by executing the cmake-build-debug/tests/Password-Keeper-Test-Runner file or by running the ctest command in the cmake-build-debug folder.
+
+## CI/CD Pipeline
+The CI/CD pipeline is configured in GitHub Actions and includes multiple stages to ensure code quality, compatibility, and functionality across various platforms.
+
+1. Code Quality Validation:
+   - The first two stages validate code correctness and ensure no warnings are generated (using Cppcheck and Clang-Tidy).
+
+2. Compatibility Testing Across Multiple Operating Systems:
+   - The next five stages ensure proper code execution on major operating systems (Linux, macOS, and Windows) and perform memory checks using MSAN, ASAN, and Valgrind to identify potential memory leaks and other memory-related issues.
+
+3. Functional Test Execution:
+   - The final stage runs functional tests to verify that the application behaves as expected.
+
+In all stages involving the execution of the application, a PostgreSQL service is included to ensure proper application functionality.
+
+[RO]
 # Password-Keeper
 
 ## Descriere proiect
