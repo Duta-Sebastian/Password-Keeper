@@ -34,8 +34,6 @@ public:
     [[nodiscard]] int getNumberOfUsers() const;
 
     User getUserByUsername(std::string &username) const;
-
-    friend std::ostream& operator<<(std::ostream &, const Database&);
 };
 
 

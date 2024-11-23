@@ -62,13 +62,5 @@ int main() {
     if(command == "Login") currentUser = auth.login();
     else currentUser = auth.createAccount();
     std::cout<<*currentUser;
-    const User copiedUser = *currentUser;
-    std::cout<<copiedUser;
-    std::cout<<auth;
-    const auto &database = Database::getDatabaseInstance();
-    std::cout<<database;
-    std::cout<<logger;
-    constexpr EnvVarManager envVarManager;
-    std::cout<<&envVarManager;
     return 0;
 }

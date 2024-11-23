@@ -55,8 +55,6 @@ public:
   Logger &operator=(Logger &&) = delete;
 
   void log(LogLevel, const std::string &);
-
-  friend std::ostream& operator<<(std::ostream &, const Logger&);
 };
 
 
