@@ -9,6 +9,7 @@ class User {
     std::string username;
     PasswordHash passwordHash;
     int userId;
+    static int currentUserId;
 public:
     User(std::string, const std::string&);
     User(std::string, PasswordHash);
@@ -20,6 +21,9 @@ public:
     [[nodiscard]] std::string getPasswordSalt() const;
     [[nodiscard]] int getUserId() const;
     void setUserId(int);
+
+    static void setCurrentUserId(int);
+    static int getCurrentUserId();
 };
 
 

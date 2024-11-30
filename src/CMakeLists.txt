@@ -11,6 +11,11 @@ add_library(${PROJECT_NAME}_lib
         Database/Auth.cpp
         Utils/EnvVarManager.cpp
         Logger/Logger.cpp
+        Exceptions/DatabaseExceptions/DatabaseExceptions.cpp
+        Accounts/Account.cpp
+        Accounts/BankAccount.cpp
+        Accounts/EmailAccount.cpp
+        Accounts/SocialMediaAccount.cpp
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE
@@ -27,6 +32,9 @@ target_include_directories(${PROJECT_NAME}_lib PUBLIC
         User
         Utils
         Logger
+        Exceptions
+        Exceptions/DatabaseExceptions
+        Accounts
 )
 
 target_link_directories(${PROJECT_NAME}_lib PUBLIC ${pqxx_SOURCE_DIR}/lib)

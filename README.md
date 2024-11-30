@@ -23,7 +23,7 @@ The CI/CD pipeline is configured in GitHub Actions and includes multiple stages 
    - The first two stages validate code correctness and ensure no warnings are generated (using Cppcheck and Clang-Tidy).
 
 2. Compatibility Testing Across Multiple Operating Systems:
-   - The next five stages ensure proper code execution on major operating systems (Linux, macOS, and Windows) and perform memory checks using MSAN, ASAN, and Valgrind to identify potential memory leaks and other memory-related issues.
+   - The next five stages ensure proper code execution on major operating systems (Linux, macOS, and Windows) and perform memory checks using ASAN and Valgrind to identify potential memory leaks and other memory-related issues.
 
 3. Functional Test Execution:
    - The final stage runs functional tests to verify that the application behaves as expected.
@@ -60,37 +60,12 @@ Verificarea calității codului:
 Primele două etape validează corectitudinea codului și se asigură că nu generează warnings ( folosind `Cppcheck` si `Clang-Tidy` ).
 
 Testarea compatibilității pe multiple sisteme de operare:
-Următoarele cinci etape asigură rularea corectă a codului pe principalele sisteme de operare (Linux, macOS și Windows) și efectuează verificări de memorie folosind MSAN, ASAN și Valgrind, pentru a identifica posibile memory leaks și alte probleme legate de memorie.
+Următoarele cinci etape asigură rularea corectă a codului pe principalele sisteme de operare (Linux, macOS și Windows) și efectuează verificări de memorie folosind ASAN și Valgrind, pentru a identifica posibile memory leaks și alte probleme legate de memorie.
 
 Rularea testelor funcționale:
 Ultima etapă rulează testele pentru a verifica dacă aplicația funcționează conform așteptărilor.
 
 În toate etapele care implică rularea aplicatiei este inclus un serviciu PostgreSQL pentru a permite rularea corectă a aplicației.
-
-## Milestone #0
-
-- [ ] Nume proiect (poate fi schimbat ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
-
-## Milestone #1
-
-#### Cerințe
-
-- [ ] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
-- [ ] constructori de inițializare cu parametri
-- [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
-- [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
-- [ ] cât mai multe `const` (unde este cazul)
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin
-  1-2 funcții mai complexe
-    - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
-- [ ] scenariu de utilizare a claselor definite:
-    - preferabil sub formă de teste unitare, mai ales dacă vorbim de aplicații consolă
-    - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
-    - vor fi adăugate în fișierul `tastatura.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă
-      aveți nevoie de date din fișiere, creați alte fișiere separat
-- [ ] tag de `git`: de exemplu `v0.1`
-- [ ] serviciu de integrare continuă (CI); exemplu: GitHub Actions
 
 ## Milestone #2
 

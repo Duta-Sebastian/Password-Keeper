@@ -2,6 +2,8 @@
 #define DATABASE_H
 
 #include <pqxx/pqxx>
+
+#include "../Accounts/Account.h"
 #include "../User/User.h"
 
 class Database {
@@ -34,6 +36,8 @@ public:
     [[nodiscard]] int getNumberOfUsers() const;
 
     User getUserByUsername(std::string &username) const;
+
+    void addUserDefinedAccount(const std::shared_ptr<Account> &account, const AccountType &) const;
 };
 
 

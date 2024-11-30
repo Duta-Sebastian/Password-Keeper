@@ -47,3 +47,11 @@ void User::setUserId(const int id) {
     this->userId = id;
 }
 
+void User::setCurrentUserId(const int currentUserId) {
+    User::currentUserId = currentUserId;
+}
+
+int User::getCurrentUserId() {
+    return currentUserId;
+}
+

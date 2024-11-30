@@ -1,11 +1,13 @@
 #include <iostream>
+
+#include "Accounts/BankAccount.h"
 #include "Database/Database.h"
 
 #include "Database/Auth.h"
 #include "EnvironmentReader/EnvironmentReader.h"
 #include "Logger/Logger.h"
-#include "Utils/EnvVarManager.h"
 
+int User::currentUserId = -1;
 void initializeDatabase() {
     auto &logger = Logger::getInstance();
     EnvironmentReader::getEnvReader();
@@ -35,13 +37,29 @@ std::string promptCommand() {
     return command;
 }
 
-std::tuple<std::string, std::string> promptUserDetails() {
+std::tuple<std::string, std::string> promptUserInformation() {
     std::string username, password;
     std::cout << "Enter username: ";
     std::cin >> username;
     std::cout << "Enter password: ";
     std::cin >> password;
     return {username, password};
+}
+
+User handleUserAuth(const std::string &command, const std::tuple<std::string, std::string>& userInformation) {
+    const Auth auth = std::apply([](auto&&... args) { return Auth(args...); }, userInformation);
+    std::optional<User> currentUser;
+    try {
+        if(command == "Login") currentUser = auth.login();
+        else currentUser = auth.createAccount() ;
+    }
+    catch (std::exception &e) {
+        std::cout << e.what() << '\n';
+        std::cout << "Invalid username or password.\n";
+        throw;
+    }
+    std::cout<<*currentUser;
+    return *currentUser;
 }
 
 int main() {
@@ -56,11 +74,14 @@ int main() {
         return 1;
     }
     const std::string command = promptCommand();
-    auto [username, password] = promptUserDetails();
-    const Auth auth(username, password);
-    std::optional<User> currentUser;
-    if(command == "Login") currentUser = auth.login();
-    else currentUser = auth.createAccount();
-    std::cout<<*currentUser;
+    while (true) {
+        try {
+            auto currentUser = handleUserAuth(command, promptUserInformation());
+            User::setCurrentUserId(currentUser.getUserId());
+            break;
+        }
+        catch (...) {
+        }
+    }
     return 0;
 }
