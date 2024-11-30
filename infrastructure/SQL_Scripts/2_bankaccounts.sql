@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS bankaccounts (
     password varchar(50) NOT NULL,
     IBAN varchar(50) NOT NULL,
     bank varchar(50) NOT NULL,
-    constraint pk_bankaccount PRIMARY KEY (username,password,IBAN,bank)
+    constraint pk_bankaccount PRIMARY KEY (id,username,password,IBAN,bank)
 );

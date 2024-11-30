@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME}_lib
         Accounts/SocialMediaAccount.cpp
         Accounts/AccountFactory.cpp
         Accounts/AccountFactory.h
+        Utils/VectorPlusTemplate.cpp
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE

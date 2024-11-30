@@ -58,7 +58,6 @@ User handleUserAuth(const std::string &command, const std::tuple<std::string, st
         std::cout << "Invalid username or password.\n";
         throw;
     }
-    std::cout<<*currentUser;
     return *currentUser;
 }
 
@@ -83,8 +82,19 @@ int main() {
         catch (...) {
         }
     }
-    const auto account = AccountFactory::accountFactory(BankAccountType, {{"username", "sebi"},{"password","1234"},
-                                                                     {"IBAN", "123412412"}, {"bank", "bt"}});
-    account->addAccount();
+    // std::vector<std::shared_ptr<Account>> accounts;
+    // accounts.push_back(AccountFactory::accountFactory(BankAccountType, {{"username", "sebi1"},{"password","1234"},
+    //                                                                  {"IBAN", "123412412"}, {"bank", "bt"}}));
+    // accounts.push_back(AccountFactory::accountFactory(BankAccountType, {{"username", "sebi1"},{"password","12345"},
+    //                                                              {"IBAN", "1234124112"}, {"bank", "bt1"}}));
+    // accounts.push_back(AccountFactory::accountFactory(EmailAccountType, {{"username", "sebi"},{"password","1234"},
+    //                                                              {"emailAddress", "sebi1"},{"mailProvider","12345"}}));
+    // accounts.push_back(AccountFactory::accountFactory(SocialMediaAccountType, {{"username", "sebi1"},{"password","1234"},
+    //                                                              {"platform", "123412412"}, {"profileUrl", "b123t"}}));
+    // for (const auto &account : accounts) {
+    //     account->addAccount();
+    // }
+    auto vector = Database::getDatabaseInstance().getAllAccounts();
+
     return 0;
 }

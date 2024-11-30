@@ -38,6 +38,10 @@ public:
     User getUserByUsername(std::string &username) const;
 
     void addUserDefinedAccount(const std::shared_ptr<Account> &account, const AccountType &) const;
+
+    std::vector<std::shared_ptr<Account>> getAccountsByType(const AccountType &accountType) const;
+
+    std::vector<std::shared_ptr<Account>> getAllAccounts() const;
 };
 
 

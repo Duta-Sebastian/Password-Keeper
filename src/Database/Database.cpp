@@ -2,9 +2,11 @@
 
 #include <iostream>
 
+#include "AccountFactory.h"
 #include "../Accounts/BankAccount.h"
 #include "../Accounts/EmailAccount.h"
 #include "../Accounts/SocialMediaAccount.h"
+#include "../Utils/VectorPlusTemplate.cpp"
 
 std::string Database::connString;
 
@@ -134,7 +136,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
         }
         case EmailAccountType: {
             const auto emailAccount = dynamic_pointer_cast<EmailAccount>(account);
-            query = "INSERT INTO bankaccounts VALUES (" +
+            query = "INSERT INTO emailaccounts VALUES (" +
                 work.quote(User::getCurrentUserId()) + ", " +
                 work.quote(emailAccount->getUsername()) + ", " +
                 work.quote(emailAccount->getPassword()) + ", " +
@@ -144,7 +146,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
         }
         case SocialMediaAccountType: {
             const auto socialMediaAccount = dynamic_pointer_cast<SocialMediaAccount>(account);
-            query = "INSERT INTO bankaccounts VALUES (" +
+            query = "INSERT INTO socialmediaaccounts VALUES (" +
                 work.quote(User::getCurrentUserId()) + ", " +
                 work.quote(socialMediaAccount->getUsername()) + ", " +
                 work.quote(socialMediaAccount->getPassword()) + ", " +
@@ -164,5 +166,60 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
     catch ([[maybe_unused]] const pqxx::data_exception &e) {
         throw std::runtime_error("Data error");
     }
+}
 
+std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountType &accountType) const {
+    pqxx::work work(*connection);
+    std::vector<std::shared_ptr<Account>> accounts;
+    switch (accountType) {
+        case BankAccountType: {
+            const auto queryResult = work.exec_params("Select * from bankaccounts where id=$1",
+                                                User::getCurrentUserId());
+            for (const auto& row : queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(BankAccountType,{
+                    {"username",row[1].as<std::string>()},
+                    {"password",row[2].as<std::string>()},
+                    {"IBAN",row[3].as<std::string>()},
+                    {"bank",row[4].as<std::string>()}
+                }));
+            }
+            break;
+        }
+        case EmailAccountType: {
+            const auto queryResult = work.exec_params("Select * from emailaccounts where id=$1",
+                                    User::getCurrentUserId());
+            for (const auto& row : queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(EmailAccountType,{
+                    {"username",row[1].as<std::string>()},
+                    {"password",row[2].as<std::string>()},
+                    {"emailAddress",row[3].as<std::string>()},
+                    {"mailProvider",row[4].as<std::string>()}
+                }));
+            }
+            break;
+        }
+        case SocialMediaAccountType: {
+            const auto queryResult = work.exec_params("Select * from socialmediaaccounts where id=$1",
+                                    User::getCurrentUserId());
+            for (const auto& row : queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(SocialMediaAccountType,{
+                    {"username",row[1].as<std::string>()},
+                    {"password",row[2].as<std::string>()},
+                    {"platform",row[3].as<std::string>()},
+                    {"profileUrl",row[4].as<std::string>()}
+                }));
+            }
+            break;
+        }
+        default: {
+            throw std::runtime_error("Unknown account type");
+        }
+    }
+    return accounts;
+}
+
+std::vector<std::shared_ptr<Account>> Database::getAllAccounts() const {
+    return getAccountsByType(BankAccountType) +
+           getAccountsByType(EmailAccountType) +
+           getAccountsByType(SocialMediaAccountType);
 }

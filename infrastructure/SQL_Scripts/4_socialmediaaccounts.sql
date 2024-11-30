@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS socialmediaaccounts (
     password varchar(50) NOT NULL,
     platform varchar(50) NOT NULL,
     profileUrl varchar(50) NOT NULL,
-    constraint pk_bankaccount PRIMARY KEY (username,password,platform,profileUrl)
+    constraint pk_socialmediaaccounts PRIMARY KEY (id,username,password,platform,profileUrl)
 );

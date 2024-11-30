@@ -18,8 +18,8 @@ public:
     virtual void addAccount() = 0;
     virtual ~Account() = default;
 
-    virtual std::string getUsername() const;
-    virtual std::string getPassword() const;
+    [[nodiscard]] virtual std::string getUsername() const;
+    [[nodiscard]] virtual std::string getPassword() const;
 };
 
 
