@@ -1,13 +1,14 @@
 #include "BankAccount.h"
 
 #include <Database.h>
+#include <iostream>
 
 BankAccount::BankAccount(std::string username, std::string password,
                          std::string IBAN, std::string bank)
     : Account(std::move(username),std::move(password)), IBAN(std::move(IBAN)), bank(std::move(bank)){}
 
 AccountType BankAccount::getAccountType() const {
-    return BankAccountType;
+    return AccountType::BankAccountType;
 }
 
 void BankAccount::addAccount() {
@@ -22,4 +23,12 @@ std::string BankAccount::getIBAN() const {
 
 std::string BankAccount::getBank() const {
     return this->bank;
+}
+
+void BankAccount::showAccountDetails() const {
+    std::cout << "Account Type: " << getAccountTypeString(this->getAccountType())<< "\n"
+              << "Username: " << this->username << "\n"
+              << "Password: " << this->password << "\n"
+              << "Email Address: " << this->IBAN << "\n"
+              << "Mail Provider: " << this->bank;
 }

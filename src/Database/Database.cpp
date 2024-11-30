@@ -124,7 +124,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
     pqxx::work work(*connection);
     std::string query;
     switch (accountType) {
-        case BankAccountType: {
+        case AccountType::BankAccountType: {
             const auto bankAccount = dynamic_pointer_cast<BankAccount>(account);
             query = "INSERT INTO bankaccounts VALUES (" +
                 work.quote(User::getCurrentUserId()) + ", " +
@@ -134,7 +134,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
                 work.quote(bankAccount->getBank()) + ");";
             break;
         }
-        case EmailAccountType: {
+        case AccountType::EmailAccountType: {
             const auto emailAccount = dynamic_pointer_cast<EmailAccount>(account);
             query = "INSERT INTO emailaccounts VALUES (" +
                 work.quote(User::getCurrentUserId()) + ", " +
@@ -144,7 +144,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
                 work.quote(emailAccount->getMailProvider()) + ");";
             break;
         }
-        case SocialMediaAccountType: {
+        case AccountType::SocialMediaAccountType: {
             const auto socialMediaAccount = dynamic_pointer_cast<SocialMediaAccount>(account);
             query = "INSERT INTO socialmediaaccounts VALUES (" +
                 work.quote(User::getCurrentUserId()) + ", " +
@@ -172,42 +172,42 @@ std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountT
     pqxx::work work(*connection);
     std::vector<std::shared_ptr<Account>> accounts;
     switch (accountType) {
-        case BankAccountType: {
+        case AccountType::BankAccountType: {
             const auto queryResult = work.exec_params("Select * from bankaccounts where id=$1",
                                                 User::getCurrentUserId());
             for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(BankAccountType,{
-                    {"username",row[1].as<std::string>()},
-                    {"password",row[2].as<std::string>()},
-                    {"IBAN",row[3].as<std::string>()},
-                    {"bank",row[4].as<std::string>()}
-                }));
+                accounts.push_back(AccountFactory::accountFactory(AccountType::BankAccountType,{
+                                                                      {"username",row[1].as<std::string>()},
+                                                                      {"password",row[2].as<std::string>()},
+                                                                      {"IBAN",row[3].as<std::string>()},
+                                                                      {"bank",row[4].as<std::string>()}
+                                                                  }));
             }
             break;
         }
-        case EmailAccountType: {
+        case AccountType::EmailAccountType: {
             const auto queryResult = work.exec_params("Select * from emailaccounts where id=$1",
                                     User::getCurrentUserId());
             for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(EmailAccountType,{
-                    {"username",row[1].as<std::string>()},
-                    {"password",row[2].as<std::string>()},
-                    {"emailAddress",row[3].as<std::string>()},
-                    {"mailProvider",row[4].as<std::string>()}
-                }));
+                accounts.push_back(AccountFactory::accountFactory(AccountType::EmailAccountType,{
+                                                                      {"username",row[1].as<std::string>()},
+                                                                      {"password",row[2].as<std::string>()},
+                                                                      {"emailAddress",row[3].as<std::string>()},
+                                                                      {"mailProvider",row[4].as<std::string>()}
+                                                                  }));
             }
             break;
         }
-        case SocialMediaAccountType: {
+        case AccountType::SocialMediaAccountType: {
             const auto queryResult = work.exec_params("Select * from socialmediaaccounts where id=$1",
                                     User::getCurrentUserId());
             for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(SocialMediaAccountType,{
-                    {"username",row[1].as<std::string>()},
-                    {"password",row[2].as<std::string>()},
-                    {"platform",row[3].as<std::string>()},
-                    {"profileUrl",row[4].as<std::string>()}
-                }));
+                accounts.push_back(AccountFactory::accountFactory(AccountType::SocialMediaAccountType,{
+                                                                      {"username",row[1].as<std::string>()},
+                                                                      {"password",row[2].as<std::string>()},
+                                                                      {"platform",row[3].as<std::string>()},
+                                                                      {"profileUrl",row[4].as<std::string>()}
+                                                                  }));
             }
             break;
         }
@@ -219,7 +219,7 @@ std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountT
 }
 
 std::vector<std::shared_ptr<Account>> Database::getAllAccounts() const {
-    return getAccountsByType(BankAccountType) +
-           getAccountsByType(EmailAccountType) +
-           getAccountsByType(SocialMediaAccountType);
+    return getAccountsByType(AccountType::BankAccountType) +
+           getAccountsByType(AccountType::EmailAccountType) +
+           getAccountsByType(AccountType::SocialMediaAccountType);
 }

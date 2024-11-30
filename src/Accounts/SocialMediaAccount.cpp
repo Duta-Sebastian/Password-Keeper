@@ -1,9 +1,10 @@
 #include "SocialMediaAccount.h"
 
 #include <Database.h>
+#include <iostream>
 
 AccountType SocialMediaAccount::getAccountType() const {
-    return SocialMediaAccountType;
+    return AccountType::SocialMediaAccountType;
 }
 
 SocialMediaAccount::SocialMediaAccount(std::string username, std::string password,
@@ -23,4 +24,12 @@ std::string SocialMediaAccount::getPlatform() const {
 
 std::string SocialMediaAccount::getProfileUrl() const {
     return this->profileUrl;
+}
+
+void SocialMediaAccount::showAccountDetails() const {
+    std::cout << "Account Type: " << getAccountTypeString(this->getAccountType())<< "\n"
+              << "Username: " << this->username << "\n"
+              << "Password: " << this->password << "\n"
+              << "Email Address: " << this->platform << "\n"
+              << "Mail Provider: " << this->profileUrl;
 }

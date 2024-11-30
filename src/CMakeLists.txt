@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME}_lib
         Accounts/AccountFactory.cpp
         Accounts/AccountFactory.h
         Utils/VectorPlusTemplate.cpp
+        Utils/AccountType.cpp
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE

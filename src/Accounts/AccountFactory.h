@@ -1,13 +1,8 @@
-//
-// Created by sebid on 11/30/2024.
-//
-
 #ifndef ACCOUNTFACTORY_H
 #define ACCOUNTFACTORY_H
 
 #include <map>
 #include <memory>
-#include <vector>
 
 #include "Account.h"
 

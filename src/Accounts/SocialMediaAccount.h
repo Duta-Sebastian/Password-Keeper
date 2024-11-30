@@ -2,11 +2,11 @@
 #define SOCIALMEDIAACCOUNT_H
 #include "Account.h"
 
-
 class SocialMediaAccount final : public Account {
     std::string platform;
     std::string profileUrl;
     [[nodiscard]] AccountType getAccountType() const override;
+    void showAccountDetails() const override;
 public:
     SocialMediaAccount(std::string, std::string, std::string, std::string);
 

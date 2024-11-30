@@ -1,9 +1,10 @@
 #include "EmailAccount.h"
 
 #include <Database.h>
+#include <iostream>
 
 AccountType EmailAccount::getAccountType() const {
-    return EmailAccountType;
+    return AccountType::EmailAccountType;
 }
 
 EmailAccount::EmailAccount(std::string username, std::string password,
@@ -23,4 +24,12 @@ std::string EmailAccount::getEmailAddress() const {
 
 std::string EmailAccount::getMailProvider() const {
     return this->mailProvider;
+}
+
+void EmailAccount::showAccountDetails() const {
+    std::cout << "Account Type: " << getAccountTypeString(this->getAccountType())<< "\n"
+              << "Username: " << this->username << "\n"
+              << "Password: " << this->password << "\n"
+              << "Email Address: " << this->emailAddress << "\n"
+              << "Mail Provider: " << this->mailProvider;
 }

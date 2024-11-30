@@ -94,7 +94,10 @@ int main() {
     // for (const auto &account : accounts) {
     //     account->addAccount();
     // }
-    auto vector = Database::getDatabaseInstance().getAllAccounts();
-
+    std::cout << "\n";
+    for (const auto vector = Database::getDatabaseInstance().getAllAccounts();
+        const auto &account : vector) {
+        account->show();
+    }
     return 0;
 }

@@ -7,6 +7,7 @@ class BankAccount final : public Account {
     std::string IBAN;
     std::string bank;
     [[nodiscard]] AccountType getAccountType() const override;
+    void showAccountDetails() const override;
 public:
     BankAccount(std::string, std::string, std::string , std::string );
     void addAccount() override;
