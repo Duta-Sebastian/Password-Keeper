@@ -168,6 +168,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
     }
 }
 
+/// TO DO Maybe lambda functions?
 std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountType &accountType) const {
     pqxx::work work(*connection);
     std::vector<std::shared_ptr<Account>> accounts;

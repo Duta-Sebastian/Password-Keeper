@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "AccountFactory.h"
-#include "Accounts/BankAccount.h"
+#include "AddAccountCommandTemplate.h"
+#include "ShowAccountsCommand.cpp"
 #include "Database/Database.h"
 
 #include "Database/Auth.h"
@@ -61,6 +61,116 @@ User handleUserAuth(const std::string &command, const std::tuple<std::string, st
     return *currentUser;
 }
 
+void addAccountCommand() {
+    while (true) {
+        std::cout<< "What type of account do you want to add? Choose the corresponding index!\n"
+                 << "1. Bank Account\n" << "2. Email Account\n" << "3. Social Media Account\n" << "4. Exit\n";
+        std::flush(std::cout);
+        std::string command;
+        std::cin >> command;
+        int commandIndex;
+        try {
+            commandIndex = std::stoi(command);
+        }
+        catch ([[maybe_unused]] std::invalid_argument &e) {
+            std::cout << "Invalid command!\n";
+            continue;
+        }
+        switch (commandIndex) {
+            case 1: {
+                AddAccountCommandTemplate<AccountType::BankAccountType>::addAccountCommand();
+                break;
+            }
+            case 2: {
+                AddAccountCommandTemplate<AccountType::EmailAccountType>::addAccountCommand();
+                break;
+            }
+            case 3: {
+                AddAccountCommandTemplate<AccountType::SocialMediaAccountType>::addAccountCommand();
+                break;
+            }
+            case 4: {
+                return ;
+            }
+            default:
+                std::cout << "Invalid command!\n";
+        }
+    }
+}
+void showAccountsCommand() {
+    while (true) {
+        std::cout<< "What type of accounts do you want to show? Choose the corresponding index!\n"
+         << "1. Bank Account\n" << "2. Email Account\n"
+         << "3. Social Media Account\n" << "4. All accounts\n" << "5. Exit\n";
+        std::flush(std::cout);
+        std::string command;
+        std::cin >> command;
+        int commandIndex;
+        try {
+            commandIndex = std::stoi(command);
+        }
+        catch ([[maybe_unused]] std::invalid_argument &e) {
+            std::cout << "Invalid command!\n";
+            continue;
+        }
+        switch (commandIndex) {
+            case 1: {
+                ShowAccountsCommands::showAccountsCommand<AccountType::BankAccountType>();
+                break;
+            }
+            case 2: {
+                ShowAccountsCommands::showAccountsCommand<AccountType::EmailAccountType>();
+                break;
+            }
+            case 3: {
+                ShowAccountsCommands::showAccountsCommand<AccountType::SocialMediaAccountType>();
+                break;
+            }
+            case 4: {
+                ShowAccountsCommands::showAllAccounts();
+                break;
+            }
+            case 5: {
+                return ;
+            }
+            default:
+                std::cout << "Invalid command!\n";
+        }
+    }
+}
+
+void userInteraction() {
+    while (true) {
+        std::cout<< "Choose an option by inputting its index!\n" << "1. Add a new account\n"
+                 << "2. Show accounts\n" << "3. Exit\n";
+        std::string command = {};
+        std::cin >> command;
+        int commandIndex;
+        try {
+            commandIndex = std::stoi(command);
+        }
+        catch ([[maybe_unused]] std::invalid_argument &e) {
+            std::cout << "Invalid command!\n";
+            continue;
+        }
+        switch (commandIndex) {
+            case 1: {
+                addAccountCommand();
+                break;
+            }
+            case 2: {
+                showAccountsCommand();
+                break;
+            }
+            case 3: {
+                return ;
+            }
+            default:
+                std::cout << "Invalid command!\n";
+        }
+    }
+}
+
 int main() {
     Logger::create("Logs");
     auto &logger = Logger::getInstance();
@@ -82,22 +192,6 @@ int main() {
         catch (...) {
         }
     }
-    // std::vector<std::shared_ptr<Account>> accounts;
-    // accounts.push_back(AccountFactory::accountFactory(BankAccountType, {{"username", "sebi1"},{"password","1234"},
-    //                                                                  {"IBAN", "123412412"}, {"bank", "bt"}}));
-    // accounts.push_back(AccountFactory::accountFactory(BankAccountType, {{"username", "sebi1"},{"password","12345"},
-    //                                                              {"IBAN", "1234124112"}, {"bank", "bt1"}}));
-    // accounts.push_back(AccountFactory::accountFactory(EmailAccountType, {{"username", "sebi"},{"password","1234"},
-    //                                                              {"emailAddress", "sebi1"},{"mailProvider","12345"}}));
-    // accounts.push_back(AccountFactory::accountFactory(SocialMediaAccountType, {{"username", "sebi1"},{"password","1234"},
-    //                                                              {"platform", "123412412"}, {"profileUrl", "b123t"}}));
-    // for (const auto &account : accounts) {
-    //     account->addAccount();
-    // }
-    std::cout << "\n";
-    for (const auto vector = Database::getDatabaseInstance().getAllAccounts();
-        const auto &account : vector) {
-        account->show();
-    }
+    userInteraction();
     return 0;
 }
