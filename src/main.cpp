@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "AccountFactory.h"
 #include "Accounts/BankAccount.h"
 #include "Database/Database.h"
 
@@ -7,7 +8,6 @@
 #include "EnvironmentReader/EnvironmentReader.h"
 #include "Logger/Logger.h"
 
-int User::currentUserId = -1;
 void initializeDatabase() {
     auto &logger = Logger::getInstance();
     EnvironmentReader::getEnvReader();
@@ -83,5 +83,8 @@ int main() {
         catch (...) {
         }
     }
+    const auto account = AccountFactory::accountFactory(BankAccountType, {{"username", "sebi"},{"password","1234"},
+                                                                     {"IBAN", "123412412"}, {"bank", "bt"}});
+    account->addAccount();
     return 0;
 }

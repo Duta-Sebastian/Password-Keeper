@@ -8,7 +8,7 @@ class SocialMediaAccount final : public Account {
     std::string profileUrl;
     [[nodiscard]] AccountType getAccountType() const override;
 public:
-    SocialMediaAccount(const std::string&, const std::string&, const std::string&, const std::string&);
+    SocialMediaAccount(std::string, std::string, std::string, std::string);
 
     void addAccount() override;
 

@@ -14,7 +14,7 @@ protected:
     std::string password;
     [[nodiscard]] virtual AccountType getAccountType() const = 0;
 public:
-    Account(const std::string&, const std::string&);
+    Account(std::string, std::string);
     virtual void addAccount() = 0;
     virtual ~Account() = default;
 

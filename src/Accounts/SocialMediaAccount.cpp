@@ -6,9 +6,10 @@ AccountType SocialMediaAccount::getAccountType() const {
     return SocialMediaAccountType;
 }
 
-SocialMediaAccount::SocialMediaAccount(const std::string &username, const std::string& password,
-                                       const std::string &platform, const std::string & profileUrl)
-    : Account(username, password), platform(platform), profileUrl(profileUrl) {}
+SocialMediaAccount::SocialMediaAccount(std::string username, std::string password,
+                                       std::string platform, std::string profileUrl)
+    : Account(std::move(username), std::move(password)),
+      platform(std::move(platform)), profileUrl(std::move(profileUrl)) {}
 
 void SocialMediaAccount::addAccount() {
     const Database &database = Database::getDatabaseInstance();

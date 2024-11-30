@@ -1,7 +1,9 @@
 #include "Account.h"
 
-Account::Account(const std::string &username, const std::string &password) :
-    username(username), password(password) {}
+#include <utility>
+
+Account::Account(std::string username, std::string password) :
+    username(std::move(username)), password(std::move(password)) {}
 
 std::string Account::getUsername() const {
     return this->username;

@@ -5,6 +5,8 @@
 
 #include "../Logger/Logger.h"
 
+int User::currentUserId = -1;
+
 std::ostream &operator<<(std::ostream &os, const User &user) {
     os << "UserId:" << user.userId << '\n' <<
             " username: " << user.username << '\n' <<

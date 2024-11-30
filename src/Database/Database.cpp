@@ -161,7 +161,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
         work.exec_params(query);
         work.commit();
     }
-    catch (const pqxx::data_exception &e) {
+    catch ([[maybe_unused]] const pqxx::data_exception &e) {
         throw std::runtime_error("Data error");
     }
 

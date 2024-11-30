@@ -8,7 +8,7 @@ class EmailAccount final: public Account {
     std::string mailProvider;
     [[nodiscard]] AccountType getAccountType() const override;
 public:
-    explicit EmailAccount(const std::string&, const std::string&, const std::string&, const std::string&);
+    explicit EmailAccount(std::string, std::string, std::string, std::string);
 
     void addAccount() override;
 

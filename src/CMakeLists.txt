@@ -16,6 +16,8 @@ add_library(${PROJECT_NAME}_lib
         Accounts/BankAccount.cpp
         Accounts/EmailAccount.cpp
         Accounts/SocialMediaAccount.cpp
+        Accounts/AccountFactory.cpp
+        Accounts/AccountFactory.h
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE

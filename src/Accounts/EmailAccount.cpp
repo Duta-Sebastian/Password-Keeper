@@ -6,9 +6,10 @@ AccountType EmailAccount::getAccountType() const {
     return EmailAccountType;
 }
 
-EmailAccount::EmailAccount(const std::string &username, const std::string &password,
-                           const std::string &emailAddress, const std::string &mailProvider)
-    : Account(username, password), emailAddress(emailAddress), mailProvider(mailProvider) {}
+EmailAccount::EmailAccount(std::string username, std::string password,
+                           std::string emailAddress, std::string mailProvider)
+    : Account(std::move(username), std::move(password)),
+      emailAddress(std::move(emailAddress)), mailProvider(std::move(mailProvider)) {}
 
 void EmailAccount::addAccount() {
     const Database &database = Database::getDatabaseInstance();

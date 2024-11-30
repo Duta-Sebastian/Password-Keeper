@@ -2,11 +2,9 @@
 
 #include <Database.h>
 
-#include <utility>
-
-BankAccount::BankAccount(const std::string &username, const std::string &password,
+BankAccount::BankAccount(std::string username, std::string password,
                          std::string IBAN, std::string bank)
-    : Account(username,password), IBAN(std::move(IBAN)), bank(std::move(bank)){}
+    : Account(std::move(username),std::move(password)), IBAN(std::move(IBAN)), bank(std::move(bank)){}
 
 AccountType BankAccount::getAccountType() const {
     return BankAccountType;
