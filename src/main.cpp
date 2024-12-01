@@ -1,5 +1,7 @@
+#include <DatabaseExceptions.h>
 #include <iostream>
 
+#include "AccountExceptions.h"
 #include "AddAccountCommandTemplate.h"
 #include "ShowAccountsCommand.cpp"
 #include "Database/Database.h"
@@ -16,9 +18,14 @@ void initializeDatabase() {
         Database::setConnString(connString);
         Database::getDatabaseInstance();
         logger.log(LogLevel::INFO, "Connected to database");
-    } catch (std::exception &e) {
+    }
+    catch (EnvironmentVariableNotFound &e) {
+        logger.log(LogLevel::LOG_ERROR, "Error initializing database connection: " + std::string(e.what()));
+        throw ;
+    }
+    catch (FailedToOpen &e) {
         logger.log(LogLevel::LOG_ERROR, "Error initializing database connection: " + std::string(e.what()) + '\n');
-        throw std::runtime_error("Error initializing database connection" + std::string(e.what()) + '\n');
+        throw ;
     }
 }
 
@@ -62,6 +69,7 @@ User handleUserAuth(const std::string &command, const std::tuple<std::string, st
 }
 
 void addAccountCommand() {
+    auto &logger = Logger::getInstance();
     while (true) {
         std::cout<< "What type of account do you want to add? Choose the corresponding index!\n"
                  << "1. Bank Account\n" << "2. Email Account\n" << "3. Social Media Account\n" << "4. Exit\n";
@@ -76,28 +84,44 @@ void addAccountCommand() {
             std::cout << "Invalid command!\n";
             continue;
         }
-        switch (commandIndex) {
-            case 1: {
-                AddAccountCommandTemplate<AccountType::BankAccountType>::addAccountCommand();
-                break;
+        try {
+            switch (commandIndex) {
+                case 1: {
+                    AddAccountCommandTemplate<AccountType::BankAccountType>::addAccountCommand();
+                    break;
+                }
+                case 2: {
+                    AddAccountCommandTemplate<AccountType::EmailAccountType>::addAccountCommand();
+                    break;
+                }
+                case 3: {
+                    AddAccountCommandTemplate<AccountType::SocialMediaAccountType>::addAccountCommand();
+                    break;
+                }
+                case 4: {
+                    return ;
+                }
+                default:
+                    std::cout << "Invalid command!\n";
             }
-            case 2: {
-                AddAccountCommandTemplate<AccountType::EmailAccountType>::addAccountCommand();
-                break;
-            }
-            case 3: {
-                AddAccountCommandTemplate<AccountType::SocialMediaAccountType>::addAccountCommand();
-                break;
-            }
-            case 4: {
-                return ;
-            }
-            default:
-                std::cout << "Invalid command!\n";
+            logger.log(LogLevel::INFO, "Successfully added account!");
+        }
+        catch (FailedToCommit &e) {
+            logger.log(LogLevel::LOG_ERROR,e.what());
+            std::cout << e.what() << '\n';
+        }
+        catch (AccountTypeExceptions &e) {
+            logger.log(LogLevel::LOG_ERROR,e.what());
+            std::cout << e.what() << '\n';
+        }
+        catch (...) {
+            logger.log(LogLevel::LOG_ERROR, "Unknown error encountered!");
+            std::cout << "Unknown error encountered!\n";
         }
     }
 }
 void showAccountsCommand() {
+    auto &logger = Logger::getInstance();
     while (true) {
         std::cout<< "What type of accounts do you want to show? Choose the corresponding index!\n"
          << "1. Bank Account\n" << "2. Email Account\n"
@@ -113,28 +137,39 @@ void showAccountsCommand() {
             std::cout << "Invalid command!\n";
             continue;
         }
-        switch (commandIndex) {
-            case 1: {
-                ShowAccountsCommands::showAccountsCommand<AccountType::BankAccountType>();
-                break;
+        try {
+            switch (commandIndex) {
+                case 1: {
+                    ShowAccountsCommands::showAccountsCommand<AccountType::BankAccountType>();
+                    break;
+                }
+                case 2: {
+                    ShowAccountsCommands::showAccountsCommand<AccountType::EmailAccountType>();
+                    break;
+                }
+                case 3: {
+                    ShowAccountsCommands::showAccountsCommand<AccountType::SocialMediaAccountType>();
+                    break;
+                }
+                case 4: {
+                    ShowAccountsCommands::showAllAccounts();
+                    break;
+                }
+                case 5: {
+                    return ;
+                }
+                default:
+                    std::cout << "Invalid command!\n";
             }
-            case 2: {
-                ShowAccountsCommands::showAccountsCommand<AccountType::EmailAccountType>();
-                break;
-            }
-            case 3: {
-                ShowAccountsCommands::showAccountsCommand<AccountType::SocialMediaAccountType>();
-                break;
-            }
-            case 4: {
-                ShowAccountsCommands::showAllAccounts();
-                break;
-            }
-            case 5: {
-                return ;
-            }
-            default:
-                std::cout << "Invalid command!\n";
+            logger.log(LogLevel::INFO, "Accounts showed successfully!");
+        }
+        catch (AccountTypeExceptions &e) {
+            logger.log(LogLevel::LOG_ERROR,e.what());
+            std::cout << e.what() << '\n';
+        }
+        catch (...) {
+            logger.log(LogLevel::LOG_ERROR, "Unknown error encountered!");
+            std::cout << "Unknown error encountered!\n";
         }
     }
 }

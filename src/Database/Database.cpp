@@ -1,7 +1,9 @@
 #include "Database.h"
 
+#include <DatabaseExceptions.h>
 #include <iostream>
 
+#include "AccountExceptions.h"
 #include "AccountFactory.h"
 #include "../Accounts/BankAccount.h"
 #include "../Accounts/EmailAccount.h"
@@ -14,9 +16,9 @@ Database::Database() {
     try {
         connection = std::make_unique<pqxx::connection>(connString);
         if (!connection->is_open()) {
-            throw std::runtime_error("Database exists but a connection couldn't be established");
+            throw FailedToOpen("Database exists but a connection couldn't be established");
         }
-    } catch (const std::exception &) {
+    } catch (const FailedToOpen) {
         connection = nullptr;
         throw ;
     }
@@ -156,7 +158,7 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
         }
         default: {
             work.abort();
-            throw std::runtime_error("Unknown account type");
+            throw AccountTypeExceptions("The addUserDefinedAccount method failed!");
         }
     }
     try {
@@ -164,11 +166,11 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
         work.commit();
     }
     catch ([[maybe_unused]] const pqxx::data_exception &e) {
-        throw std::runtime_error("Data error");
+        throw FailedToCommit("The addUserDefinedAccount method failed!");
     }
 }
 
-/// TO DO Maybe lambda functions?
+/// TODO Maybe lambda functions?
 std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountType &accountType) const {
     pqxx::work work(*connection);
     std::vector<std::shared_ptr<Account>> accounts;
@@ -213,7 +215,8 @@ std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountT
             break;
         }
         default: {
-            throw std::runtime_error("Unknown account type");
+            work.abort();
+            throw AccountTypeExceptions("The getAccountsByType method failed!");
         }
     }
     return accounts;

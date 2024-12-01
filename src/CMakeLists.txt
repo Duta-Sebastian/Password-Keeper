@@ -48,6 +48,8 @@ target_link_libraries(${PROJECT_NAME}_lib PUBLIC pqxx)
 
 add_executable(${PROJECT_NAME}
         main.cpp
+        Exceptions/DatabaseExceptions/AccountExceptions.cpp
+        Exceptions/DatabaseExceptions/AccountExceptions.h
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 

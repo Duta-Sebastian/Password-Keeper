@@ -8,6 +8,7 @@ namespace ShowAccountsCommands {
              const auto &account : database.getAccountsByType(T)) {
             account->show();
         }
+        std::cout << "---------------------------------\n";
     }
 
     void showAllAccounts() {

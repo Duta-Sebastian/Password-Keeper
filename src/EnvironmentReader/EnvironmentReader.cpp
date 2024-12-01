@@ -1,4 +1,6 @@
 #include "EnvironmentReader.h"
+
+#include <DatabaseExceptions.h>
 #include <fstream>
 #include "../Database/Database.h"
 #include "../Utils/EnvVarManager.h"
@@ -31,24 +33,24 @@ std::string EnvironmentReader::getConnString() {
     auto &logger = Logger::getInstance();
     if (EnvVarManager::get("DB_HOST").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_HOST not set");
-        throw std::invalid_argument("Environment variable DB_HOST is not set");
+        throw EnvironmentVariableNotFound("Environment variable DB_HOST is not set");
     }
     if (EnvVarManager::get("DB_NAME").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_NAME not set");
-        throw std::invalid_argument("Environment variable DB_NAME is not set");
+        throw EnvironmentVariableNotFound("Environment variable DB_NAME is not set");
     }
     if (EnvVarManager::get("DB_USER").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_USER not set");
-        throw std::invalid_argument("Environment variable DB_USER is not set");
+        throw EnvironmentVariableNotFound("Environment variable DB_USER is not set");
     }
     if (EnvVarManager::get("DB_PASSWORD").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_PASSWORD not set");
-        throw std::invalid_argument(
+        throw EnvironmentVariableNotFound(
                 "Environment variable DB_PASSWORD is not set");
     }
     if (EnvVarManager::get("DB_PORT").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_PORT not set");
-        throw std::invalid_argument("Environment variable DB_PORT is not set");
+        throw EnvironmentVariableNotFound("Environment variable DB_PORT is not set");
     }
 
     std::string connString =
