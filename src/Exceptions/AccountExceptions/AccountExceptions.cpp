@@ -1,8 +1,4 @@
-//
-// Created by sebid on 12/1/2024.
-//
-
-#include "AccountExceptions.h"
+#include <AccountExceptions.h>
 
 AccountExceptions::AccountExceptions(std::string message) : message(std::move(message)) {}
 
@@ -11,6 +7,6 @@ const char * AccountExceptions::what() const noexcept {
 }
 
 AccountTypeExceptions::AccountTypeExceptions(const std::string &message)
-    : AccountTypeExceptions(std::move("The account type is incorrect!\n" + message)) {}
+    : AccountExceptions("The account type is incorrect!\n" + message) {}
 
 

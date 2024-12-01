@@ -5,13 +5,14 @@
 #include <string>
 
 
-class DatabaseExceptions : public std::exception{
+class DatabaseExceptions : public std::exception {
 protected:
     std::string message;
+
 public:
     explicit DatabaseExceptions(std::string);
 
-    const char* what() const noexcept override;
+    const char *what() const noexcept override;
 };
 
 class FailedToCommit final : public DatabaseExceptions {

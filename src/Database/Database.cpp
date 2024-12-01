@@ -1,13 +1,12 @@
 #include "Database.h"
-
-#include <DatabaseExceptions.h>
 #include <iostream>
 
-#include "AccountExceptions.h"
-#include "AccountFactory.h"
-#include "../Accounts/BankAccount.h"
-#include "../Accounts/EmailAccount.h"
-#include "../Accounts/SocialMediaAccount.h"
+#include <DatabaseExceptions.h>
+#include <AccountExceptions.h>
+#include <AccountFactory.h>
+#include <BankAccount.h>
+#include <EmailAccount.h>
+#include <SocialMediaAccount.h>
 #include "../Utils/VectorPlusTemplate.cpp"
 
 std::string Database::connString;
@@ -20,7 +19,7 @@ Database::Database() {
         }
     } catch (const FailedToOpen) {
         connection = nullptr;
-        throw ;
+        throw;
     }
 }
 
@@ -50,8 +49,7 @@ void Database::createAccount(const User &currentUser) const {
                          currentUser.getPasswordHash()
         );
         work.commit();
-    }
-    catch (const pqxx::unique_violation& e) {
+    } catch (const pqxx::unique_violation &e) {
         std::cerr << e.what() << std::endl;
         throw;
     }
@@ -97,8 +95,7 @@ int Database::getNumberOfUsers() const {
     try {
         const auto queryResult = work.exec_params("SELECT COUNT(*) FROM users");
         return queryResult[0][0].as<int>();
-    }
-    catch (const std::exception &e) {
+    } catch (const std::exception &e) {
         std::cerr << "Exception: " << e.what() << std::endl;
         throw;
     }
@@ -113,47 +110,48 @@ User Database::getUserByUsername(std::string &username) const {
         const auto _username = queryResult[0][1].as<std::string>();
         const auto _passwordSalt = queryResult[0][2].as<std::string>();
         const auto _passwordHash = queryResult[0][3].as<std::string>();
-        return {_userId, _username, _passwordHash,
-            _passwordSalt};
-    }
-    catch (const std::exception &e) {
+        return {
+            _userId, _username, _passwordHash,
+            _passwordSalt
+        };
+    } catch (const std::exception &e) {
         std::cerr << "Exception: " << e.what() << std::endl;
         throw;
     }
 }
 
-void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,const AccountType &accountType) const {
+void Database::addUserDefinedAccount(const std::shared_ptr<Account> &account, const AccountType &accountType) const {
     pqxx::work work(*connection);
     std::string query;
     switch (accountType) {
         case AccountType::BankAccountType: {
             const auto bankAccount = dynamic_pointer_cast<BankAccount>(account);
             query = "INSERT INTO bankaccounts VALUES (" +
-                work.quote(User::getCurrentUserId()) + ", " +
-                work.quote(bankAccount->getUsername()) + ", " +
-                work.quote(bankAccount->getPassword()) + ", " +
-                work.quote(bankAccount->getIBAN()) + ", " +
-                work.quote(bankAccount->getBank()) + ");";
+                    work.quote(User::getCurrentUserId()) + ", " +
+                    work.quote(bankAccount->getUsername()) + ", " +
+                    work.quote(bankAccount->getPassword()) + ", " +
+                    work.quote(bankAccount->getIBAN()) + ", " +
+                    work.quote(bankAccount->getBank()) + ");";
             break;
         }
         case AccountType::EmailAccountType: {
             const auto emailAccount = dynamic_pointer_cast<EmailAccount>(account);
             query = "INSERT INTO emailaccounts VALUES (" +
-                work.quote(User::getCurrentUserId()) + ", " +
-                work.quote(emailAccount->getUsername()) + ", " +
-                work.quote(emailAccount->getPassword()) + ", " +
-                work.quote(emailAccount->getEmailAddress()) + ", " +
-                work.quote(emailAccount->getMailProvider()) + ");";
+                    work.quote(User::getCurrentUserId()) + ", " +
+                    work.quote(emailAccount->getUsername()) + ", " +
+                    work.quote(emailAccount->getPassword()) + ", " +
+                    work.quote(emailAccount->getEmailAddress()) + ", " +
+                    work.quote(emailAccount->getMailProvider()) + ");";
             break;
         }
         case AccountType::SocialMediaAccountType: {
             const auto socialMediaAccount = dynamic_pointer_cast<SocialMediaAccount>(account);
             query = "INSERT INTO socialmediaaccounts VALUES (" +
-                work.quote(User::getCurrentUserId()) + ", " +
-                work.quote(socialMediaAccount->getUsername()) + ", " +
-                work.quote(socialMediaAccount->getPassword()) + ", " +
-                work.quote(socialMediaAccount->getPlatform()) + ", " +
-                work.quote(socialMediaAccount->getProfileUrl()) + ");";
+                    work.quote(User::getCurrentUserId()) + ", " +
+                    work.quote(socialMediaAccount->getUsername()) + ", " +
+                    work.quote(socialMediaAccount->getPassword()) + ", " +
+                    work.quote(socialMediaAccount->getPlatform()) + ", " +
+                    work.quote(socialMediaAccount->getProfileUrl()) + ");";
             break;
         }
         default: {
@@ -164,52 +162,51 @@ void Database::addUserDefinedAccount(const std::shared_ptr<Account>& account,con
     try {
         work.exec_params(query);
         work.commit();
-    }
-    catch ([[maybe_unused]] const pqxx::data_exception &e) {
+    } catch ([[maybe_unused]] const pqxx::data_exception &e) {
         throw FailedToCommit("The addUserDefinedAccount method failed!");
     }
 }
 
 /// TODO Maybe lambda functions?
-std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountType &accountType) const {
+std::vector<std::shared_ptr<Account> > Database::getAccountsByType(const AccountType &accountType) const {
     pqxx::work work(*connection);
-    std::vector<std::shared_ptr<Account>> accounts;
+    std::vector<std::shared_ptr<Account> > accounts;
     switch (accountType) {
         case AccountType::BankAccountType: {
             const auto queryResult = work.exec_params("Select * from bankaccounts where id=$1",
-                                                User::getCurrentUserId());
-            for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(AccountType::BankAccountType,{
-                                                                      {"username",row[1].as<std::string>()},
-                                                                      {"password",row[2].as<std::string>()},
-                                                                      {"IBAN",row[3].as<std::string>()},
-                                                                      {"bank",row[4].as<std::string>()}
+                                                      User::getCurrentUserId());
+            for (const auto &row: queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(AccountType::BankAccountType, {
+                                                                      {"username", row[1].as<std::string>()},
+                                                                      {"password", row[2].as<std::string>()},
+                                                                      {"IBAN", row[3].as<std::string>()},
+                                                                      {"bank", row[4].as<std::string>()}
                                                                   }));
             }
             break;
         }
         case AccountType::EmailAccountType: {
             const auto queryResult = work.exec_params("Select * from emailaccounts where id=$1",
-                                    User::getCurrentUserId());
-            for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(AccountType::EmailAccountType,{
-                                                                      {"username",row[1].as<std::string>()},
-                                                                      {"password",row[2].as<std::string>()},
-                                                                      {"emailAddress",row[3].as<std::string>()},
-                                                                      {"mailProvider",row[4].as<std::string>()}
+                                                      User::getCurrentUserId());
+            for (const auto &row: queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(AccountType::EmailAccountType, {
+                                                                      {"username", row[1].as<std::string>()},
+                                                                      {"password", row[2].as<std::string>()},
+                                                                      {"emailAddress", row[3].as<std::string>()},
+                                                                      {"mailProvider", row[4].as<std::string>()}
                                                                   }));
             }
             break;
         }
         case AccountType::SocialMediaAccountType: {
             const auto queryResult = work.exec_params("Select * from socialmediaaccounts where id=$1",
-                                    User::getCurrentUserId());
-            for (const auto& row : queryResult) {
-                accounts.push_back(AccountFactory::accountFactory(AccountType::SocialMediaAccountType,{
-                                                                      {"username",row[1].as<std::string>()},
-                                                                      {"password",row[2].as<std::string>()},
-                                                                      {"platform",row[3].as<std::string>()},
-                                                                      {"profileUrl",row[4].as<std::string>()}
+                                                      User::getCurrentUserId());
+            for (const auto &row: queryResult) {
+                accounts.push_back(AccountFactory::accountFactory(AccountType::SocialMediaAccountType, {
+                                                                      {"username", row[1].as<std::string>()},
+                                                                      {"password", row[2].as<std::string>()},
+                                                                      {"platform", row[3].as<std::string>()},
+                                                                      {"profileUrl", row[4].as<std::string>()}
                                                                   }));
             }
             break;
@@ -222,7 +219,7 @@ std::vector<std::shared_ptr<Account>> Database::getAccountsByType(const AccountT
     return accounts;
 }
 
-std::vector<std::shared_ptr<Account>> Database::getAllAccounts() const {
+std::vector<std::shared_ptr<Account> > Database::getAllAccounts() const {
     return getAccountsByType(AccountType::BankAccountType) +
            getAccountsByType(AccountType::EmailAccountType) +
            getAccountsByType(AccountType::SocialMediaAccountType);

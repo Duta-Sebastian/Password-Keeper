@@ -3,8 +3,8 @@
 
 #include <pqxx/pqxx>
 
-#include "../Accounts/Account.h"
-#include "../User/User.h"
+#include <Account.h>
+#include <User.h>
 
 class Database {
     std::unique_ptr<pqxx::connection> connection;

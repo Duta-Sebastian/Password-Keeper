@@ -1,13 +1,11 @@
-#include "EnvironmentReader.h"
+#include <EnvironmentReader.h>
 
 #include <DatabaseExceptions.h>
 #include <fstream>
-#include "../Database/Database.h"
-#include "../Utils/EnvVarManager.h"
-#include <filesystem>
+#include <EnvVarManager.h>
 #include <iostream>
 
-#include "../Logger/Logger.h"
+#include <Logger.h>
 
 EnvironmentReader::EnvironmentReader() {
     std::ifstream file(filePath);
@@ -19,12 +17,12 @@ EnvironmentReader::EnvironmentReader() {
         if (delimiterPos != std::string::npos) {
             std::string key = line.substr(0, delimiterPos);
             std::string value = line.substr(delimiterPos + 1);
-            EnvVarManager::set(key,value);
+            EnvVarManager::set(key, value);
         }
     }
 }
 
-EnvironmentReader& EnvironmentReader::getEnvReader() {
+EnvironmentReader &EnvironmentReader::getEnvReader() {
     static EnvironmentReader envReader;
     return envReader;
 }
@@ -46,7 +44,7 @@ std::string EnvironmentReader::getConnString() {
     if (EnvVarManager::get("DB_PASSWORD").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_PASSWORD not set");
         throw EnvironmentVariableNotFound(
-                "Environment variable DB_PASSWORD is not set");
+            "Environment variable DB_PASSWORD is not set");
     }
     if (EnvVarManager::get("DB_PORT").empty()) {
         logger.log(LogLevel::LOG_ERROR, "DB_PORT not set");
@@ -55,7 +53,7 @@ std::string EnvironmentReader::getConnString() {
 
     std::string connString =
             "dbname=" + EnvVarManager::get("DB_NAME") + " user=" +
-                EnvVarManager::get("DB_USER")
+            EnvVarManager::get("DB_USER")
             + " password=" + EnvVarManager::get("DB_PASSWORD") + " host="
             + EnvVarManager::get("DB_HOST") + " port=" + EnvVarManager::get("DB_PORT");
     logger.log(LogLevel::INFO, "Connection string set");

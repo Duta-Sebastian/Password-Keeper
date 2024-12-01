@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME}_lib
         Utils/EnvVarManager.cpp
         Logger/Logger.cpp
         Exceptions/DatabaseExceptions/DatabaseExceptions.cpp
+        Exceptions/AccountExceptions/AccountExceptions.cpp
         Accounts/Account.cpp
         Accounts/BankAccount.cpp
         Accounts/EmailAccount.cpp
@@ -40,6 +41,7 @@ target_include_directories(${PROJECT_NAME}_lib PUBLIC
         Logger
         Exceptions
         Exceptions/DatabaseExceptions
+        Exceptions/AccountExceptions
         Accounts
 )
 
@@ -48,8 +50,6 @@ target_link_libraries(${PROJECT_NAME}_lib PUBLIC pqxx)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        Exceptions/DatabaseExceptions/AccountExceptions.cpp
-        Exceptions/DatabaseExceptions/AccountExceptions.h
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 

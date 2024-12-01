@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         main.cpp
         HashingTest.cpp
         UserTest.cpp
+        AccountFactoryTest.cpp
 )
 include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 

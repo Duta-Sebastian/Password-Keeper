@@ -3,26 +3,27 @@
 
 #include <AccountFactory.h>
 
-template <AccountType>
+template<AccountType>
 class AddAccountCommandTemplate {
 public:
     virtual void addAccountCommand() = 0;
+
     virtual ~AddAccountCommandTemplate() = default;
 };
 
-template <>
+template<>
 class AddAccountCommandTemplate<AccountType::BankAccountType> {
 public:
     static void addAccountCommand();
 };
 
-template <>
+template<>
 class AddAccountCommandTemplate<AccountType::EmailAccountType> {
 public:
     static void addAccountCommand();
 };
 
-template <>
+template<>
 class AddAccountCommandTemplate<AccountType::SocialMediaAccountType> {
 public:
     static void addAccountCommand();

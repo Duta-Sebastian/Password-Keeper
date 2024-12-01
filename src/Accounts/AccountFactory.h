@@ -4,13 +4,12 @@
 #include <map>
 #include <memory>
 
-#include "Account.h"
+#include <Account.h>
 
 class AccountFactory {
 public:
     static std::shared_ptr<Account> accountFactory(AccountType, std::map<std::string, std::string>);
 };
-
 
 
 #endif //ACCOUNTFACTORY_H

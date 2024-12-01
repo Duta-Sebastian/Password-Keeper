@@ -2,7 +2,7 @@
 #define USER_H
 #include <string>
 
-#include "../Utils/PasswordHash.h"
+#include <PasswordHash.h>
 
 
 class User {

@@ -1,9 +1,8 @@
 #include "User.h"
 
-#include <iostream>
 #include <utility>
 
-#include "../Logger/Logger.h"
+#include <Logger.h>
 
 int User::currentUserId = -1;
 

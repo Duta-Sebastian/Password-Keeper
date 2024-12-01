@@ -1,11 +1,11 @@
 #include <Database.h>
+#include <iostream>
 
 namespace ShowAccountsCommands {
-
-    template <AccountType T>
+    template<AccountType T>
     void showAccountsCommand() {
         for (const auto &database = Database::getDatabaseInstance();
-             const auto &account : database.getAccountsByType(T)) {
+             const auto &account: database.getAccountsByType(T)) {
             account->show();
         }
         std::cout << "---------------------------------\n";
