@@ -35,6 +35,6 @@ void BankAccount::showAccountDetails() const {
     std::cout << "Account Type: " << getAccountTypeString(this->getAccountType()) << "\n"
             << "Username: " << this->username << "\n"
             << "Password: " << this->password << "\n"
-            << "Email Address: " << this->IBAN << "\n"
-            << "Mail Provider: " << this->bank;
+            << "IBAN: " << this->IBAN << "\n"
+            << "Bank: " << this->bank;
 }

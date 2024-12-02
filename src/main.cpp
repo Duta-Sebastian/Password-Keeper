@@ -214,7 +214,6 @@ int main() {
     while (true) {
         try {
             auto currentUser = handleUserAuth(command, promptUserInformation());
-            User::setCurrentUserId(currentUser.getUserId());
             break;
         } catch (...) {
         }

@@ -2,8 +2,7 @@
 #include <EmailAccount.h>
 #include <SocialMediaAccount.h>
 #include <gtest/gtest.h>
-
-#include <AccountFactory.h>tes
+#include <AccountFactory.h>
 
 TEST(AccountFactoryTest, BankAccountCreationTest) {
     const auto bankAccountFactory =
@@ -19,7 +18,7 @@ TEST(AccountFactoryTest, BankAccountCreationTest) {
 TEST(AccountFactoryTest, EmailAccountCreationTest) {
     const auto emailAccountFactory = AccountFactory::accountFactory(AccountType::EmailAccountType,
         {{"username", "sebi1"},{"password","1234"},
-        {"IBAN", "123412412"}, {"bank", "bt"}});
+        {"emailAddress", "123412412"}, {"mailProvider", "bt"}});
     const auto emailAccountManual = EmailAccount("sebi1", "1234", "123412412", "bt");
     ASSERT_EQ(emailAccountManual, *std::dynamic_pointer_cast<EmailAccount>(emailAccountFactory));
 }
@@ -28,7 +27,7 @@ TEST(AccountFactoryTest, SocialMediaAccountCreationTest) {
     const auto socialMediaAccountFactory =
         AccountFactory::accountFactory(AccountType::SocialMediaAccountType,
         {{"username", "sebi1"},{"password","1234"},
-        {"IBAN", "123412412"}, {"bank", "bt"}});
+        {"platform", "123412412"}, {"profileUrl", "bt"}});
     const auto socialMediaAccountManual = SocialMediaAccount("sebi1", "1234", "123412412", "bt");
     ASSERT_EQ(socialMediaAccountManual, *std::dynamic_pointer_cast<SocialMediaAccount>(socialMediaAccountFactory));
 }

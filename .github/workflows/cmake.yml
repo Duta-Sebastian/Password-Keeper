@@ -280,12 +280,41 @@ jobs:
       - name: "Postgres setup"
         run: |
           export PGPASSWORD=pipeline_test_password
-          psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
-                                                                                       id SERIAL PRIMARY KEY,
-                                                                                       username VARCHAR(50) UNIQUE NOT NULL,
-                                                                                       passwordSalt VARCHAR(150) NOT NULL,
-                                                                                       passwordHash VARCHAR(150) NOT NULL
-                                                                                       );"
+          psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "
+            CREATE TABLE IF NOT EXISTS users (
+              id SERIAL PRIMARY KEY,
+              username VARCHAR(50) UNIQUE NOT NULL,
+              passwordSalt VARCHAR(150) NOT NULL,
+              passwordHash VARCHAR(150) NOT NULL
+            );
+          
+            CREATE TABLE IF NOT EXISTS bankaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              IBAN VARCHAR(50) NOT NULL,
+              bank VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_bankaccount PRIMARY KEY (id, username, password, IBAN, bank)
+            );
+          
+            CREATE TABLE IF NOT EXISTS emailaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              emailAddress VARCHAR(50) NOT NULL,
+              mailProvider VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_emailaccounts PRIMARY KEY (id, username, password, emailAddress, mailProvider)
+            );
+          
+            CREATE TABLE IF NOT EXISTS socialmediaaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              platform VARCHAR(50) NOT NULL,
+              profileUrl VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_socialmediaaccounts PRIMARY KEY (id, username, password, platform, profileUrl)
+            );
+          "
 
       - name: "Run tests"
         env:

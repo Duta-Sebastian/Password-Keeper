@@ -36,6 +36,6 @@ void SocialMediaAccount::showAccountDetails() const {
     std::cout << "Account Type: " << getAccountTypeString(this->getAccountType()) << "\n"
             << "Username: " << this->username << "\n"
             << "Password: " << this->password << "\n"
-            << "Email Address: " << this->platform << "\n"
-            << "Mail Provider: " << this->profileUrl;
+            << "Platform: " << this->platform << "\n"
+            << "Profile URL: " << this->profileUrl;
 }
