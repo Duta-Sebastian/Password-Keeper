@@ -1,4 +1,7 @@
-#include <string>
+#ifndef ACCOUNTTYPE_H
+#define ACCOUNTTYPE_H
+
+#include <string_view>
 
 enum class AccountType {
     BankAccountType,
@@ -6,7 +9,7 @@ enum class AccountType {
     SocialMediaAccountType
 };
 
-constexpr std::string getAccountTypeString(const AccountType &accountType) {
+constexpr std::string_view getAccountTypeString(const AccountType& accountType) {
     switch (accountType) {
         case AccountType::BankAccountType:
             return "Bank Account";
@@ -18,3 +21,5 @@ constexpr std::string getAccountTypeString(const AccountType &accountType) {
             return "Unknown Account Type";
     }
 }
+
+#endif //ACCOUNTTYPE_H

@@ -1,7 +1,16 @@
 #include <gtest/gtest.h>
 #include <AccountFactory.h>
+#include <AccountType.h>
+#include <User.h>
 
-TEST(AccountTest, noBankAccountCreatedWhenNotLoggedIn) {
+class AccountTestNotLoggedIn : public ::testing::Test {
+protected:
+    static void SetUpTestSuite() {
+        User::setCurrentUserId(-1);
+    }
+};
+
+TEST_F(AccountTestNotLoggedIn, noBankAccountCreatedWhenNotLoggedIn) {
     const auto bankAccountFactory =
         AccountFactory::accountFactory(AccountType::BankAccountType,
                                    {
@@ -11,7 +20,7 @@ TEST(AccountTest, noBankAccountCreatedWhenNotLoggedIn) {
     ASSERT_THROW(bankAccountFactory->addAccount(), std::exception);
 }
 
-TEST(AccountTest, noEmailAccountCreatedWhenNotLoggedIn) {
+TEST_F(AccountTestNotLoggedIn, noEmailAccountCreatedWhenNotLoggedIn) {
     const auto emailAccountFactory = AccountFactory::accountFactory(AccountType::EmailAccountType,
                                     {{"username", "sebi1"},{"password","1234"},
                                     {"emailAddress", "123412412"}, {"mailProvider", "bt"}
@@ -19,7 +28,7 @@ TEST(AccountTest, noEmailAccountCreatedWhenNotLoggedIn) {
     ASSERT_THROW(emailAccountFactory->addAccount(), std::exception);
 }
 
-TEST(AccountTest, noSocialMediaAccountCreatedWhenNotLoggedIn) {
+TEST_F(AccountTestNotLoggedIn, noSocialMediaAccountCreatedWhenNotLoggedIn) {
     const auto socialMediaAccountFactory =
         AccountFactory::accountFactory(AccountType::SocialMediaAccountType,
     {{"username", "sebi1"},{"password","1234"},

@@ -1,3 +1,4 @@
+#include <AccountType.h>
 #include <SocialMediaAccount.h>
 
 #include <Database.h>

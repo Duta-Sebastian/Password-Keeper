@@ -1,4 +1,5 @@
 #include <AccountFactory.h>
+#include <AccountType.h>
 
 #include <BankAccount.h>
 #include <EmailAccount.h>

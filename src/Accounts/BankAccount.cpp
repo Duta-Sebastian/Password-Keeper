@@ -1,3 +1,4 @@
+#include <AccountType.h>
 #include <BankAccount.h>
 
 #include <Database.h>

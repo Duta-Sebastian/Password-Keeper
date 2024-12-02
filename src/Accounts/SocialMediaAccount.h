@@ -1,7 +1,7 @@
 #ifndef SOCIALMEDIAACCOUNT_H
 #define SOCIALMEDIAACCOUNT_H
 #include <Account.h>
-
+#include <AccountType.h>
 class SocialMediaAccount final : public Account {
     std::string platform;
     std::string profileUrl;

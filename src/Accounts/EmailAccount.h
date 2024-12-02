@@ -1,7 +1,7 @@
 #ifndef EMAILACCOUNT_H
 #define EMAILACCOUNT_H
 #include <Account.h>
-
+#include <AccountType.h>
 
 class EmailAccount final : public Account {
     std::string emailAddress;

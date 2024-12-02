@@ -1,13 +1,14 @@
-#include "Database.h"
+#include <Database.h>
 #include <iostream>
 
-#include <DatabaseExceptions.h>
 #include <AccountExceptions.h>
 #include <AccountFactory.h>
+#include <AccountType.h>
 #include <BankAccount.h>
+#include <DatabaseExceptions.h>
 #include <EmailAccount.h>
 #include <SocialMediaAccount.h>
-#include "../Utils/VectorPlusTemplate.cpp"
+#include <VectorUtils.h>
 
 std::string Database::connString;
 

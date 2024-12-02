@@ -1,7 +1,7 @@
 #ifndef BANKACCOUNT_H
 #define BANKACCOUNT_H
 #include <Account.h>
-
+#include <AccountType.h>
 
 class BankAccount final : public Account {
     std::string IBAN;

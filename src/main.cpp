@@ -2,13 +2,13 @@
 #include <iostream>
 
 #include <AccountExceptions.h>
-#include "AddAccountCommandTemplate.h"
-#include "ShowAccountsCommand.cpp"
-#include "Database/Database.h"
+#include <AddAccountCommandTemplate.h>
+#include <ShowAccountsCommand.h>
+#include <Database.h>
 
-#include "Database/Auth.h"
-#include "EnvironmentReader/EnvironmentReader.h"
-#include "Logger/Logger.h"
+#include <Auth.h>
+#include <EnvironmentReader.h>
+#include <Logger.h>
 
 void initializeDatabase() {
     auto &logger = Logger::getInstance();

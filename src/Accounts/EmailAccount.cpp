@@ -1,3 +1,4 @@
+#include <AccountType.h>
 #include <EmailAccount.h>
 
 #include <Database.h>

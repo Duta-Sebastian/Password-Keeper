@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <VectorPlusTemplate.cpp>
-#include <Account.h>
+#include <VectorUtils.h>
 #include <memory>
 
-#include "AccountFactory.h"
+#include <AccountFactory.h>
+#include <AccountType.h>
 
 TEST(VectorPlusTest, IntTest) {
     const std::vector v = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};

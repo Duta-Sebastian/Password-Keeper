@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <Account.h>
+#include <AccountType.h>
 
 class AccountFactory {
 public:

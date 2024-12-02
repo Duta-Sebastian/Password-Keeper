@@ -1,7 +1,7 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 #include <string>
-#include <AccountType.cpp>
+#include <AccountType.h>
 
 class Account {
 protected:
