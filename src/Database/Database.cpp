@@ -18,7 +18,7 @@ Database::Database() {
         if (!connection->is_open()) {
             throw FailedToOpen("Database exists but a connection couldn't be established");
         }
-    } catch (const FailedToOpen) {
+    } catch (const FailedToOpen& ) {
         connection = nullptr;
         throw;
     }
