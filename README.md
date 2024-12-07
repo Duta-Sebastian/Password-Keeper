@@ -20,11 +20,10 @@ customized passwords on demand.
       Fill this file with the details from [compose.yml](./infrastructure/compose.yaml) , following the format described
       in the .env.template file.
 3. Running Tests:
-    - To run the tests, add either the env.bat or env.sh file (the former for Windows, the latter for POSIX systems)
-      to the environment file settings of your toolchain (File | Settings | Build, Execution, Deployment | Toolchains)
-      under the Environment File section.
-      Tests can be run either by executing the cmake-build-debug/tests/Password-Keeper-Test-Runner file or by running
-      the ctest command in the cmake-build-debug folder.
+    - To run the tests, you have to compile them first. To do so you have to add the `-DRUN_TESTS=ON` argument when 
+      compiling the app.
+    - Tests can be run either by executing the `cmake-build-debug/tests/Password-Keeper-Test-Runner` file or by running
+      the `ctest` command in the `cmake-build-debug` folder.
 
 ## CI/CD Pipeline
 
@@ -68,11 +67,9 @@ genera parole noi, personalizate, la cerere.
       folderul [src](./src) si sa il completati cu datale din [compose.yml](./infrastructure/compose.yaml)
       in modul prezentat in fisierul [.env.template](.env.template)
 3. Rularea testelor:
-    - Pentru a rula testele trebuie sa adaugati unul dintre fisierele [env.bat](env.bat) sau [env.sh](env.sh) (primul
-      pentru
-      Windows, al doilea pentru sisteme POSIX) in setarile toolchain-ului pe care il folositi (
-      `File | Settings | Build, Execution, Deployment | Toolchains`)
-      la rubrica `Environment File`. Testele se ruleaza ori ruland executabilul
+    - Pentru a rula testele acestea trebuie compilate. Pentru a face acest lucru trebuie sa adaugati comanda
+      `-DRUN_TESTS=ON` atunci cand compilati.
+    - Testele se ruleaza ori ruland executabilul
       `cmake-build-debug/tests/Password-Keeper-Test-Runner` ori ruland comanda ctest in folderul `cmake-build-debug`.
 
 ## Pipeline
