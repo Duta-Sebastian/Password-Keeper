@@ -12,6 +12,7 @@ User Auth::createAccount() const {
         auto currentUser = User(username, password);
         database.createAccount(currentUser);
         currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
+        User::setCurrentUserId(currentUser.getUserId());
         return currentUser;
     }
     catch (pqxx::unique_violation&) {
@@ -29,7 +30,7 @@ User Auth::login() const {
             hashedInputPassword.getPasswordHash() == storedPasswordHash) {
             auto currentUser = User(username, hashedInputPassword);
             currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
-
+            User::setCurrentUserId(currentUser.getUserId());
             return currentUser;
         }
         throw std::invalid_argument("Wrong password");

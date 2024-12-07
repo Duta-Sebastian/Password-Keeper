@@ -2,7 +2,9 @@
 #define DATABASE_H
 
 #include <pqxx/pqxx>
-#include "../User/User.h"
+
+#include <Account.h>
+#include <User.h>
 
 class Database {
     std::unique_ptr<pqxx::connection> connection;
@@ -34,6 +36,12 @@ public:
     [[nodiscard]] int getNumberOfUsers() const;
 
     User getUserByUsername(std::string &username) const;
+
+    void addUserDefinedAccount(const std::shared_ptr<Account> &account, const AccountType &) const;
+
+    std::vector<std::shared_ptr<Account>> getAccountsByType(const AccountType &accountType) const;
+
+    std::vector<std::shared_ptr<Account>> getAllAccounts() const;
 };
 
 
