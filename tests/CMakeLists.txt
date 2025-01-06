@@ -14,6 +14,10 @@ add_executable(${PROJECT_NAME}
         main.cpp
         HashingTest.cpp
         UserTest.cpp
+        AccountFactoryTest.cpp
+        VectorPlusTest.cpp
+        AccountTestInsertShowLoggedIn.cpp
+        AccountTestNotLoggedIn.cpp
 )
 include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)
 

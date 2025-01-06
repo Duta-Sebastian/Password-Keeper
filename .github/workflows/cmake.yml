@@ -5,7 +5,7 @@ on:
     branches: [ '*' ] # NOTE: replace/update with appropriate branch name(s)
     tags: [ '*' ]
   pull_request:
-    types: [closed]
+    types: [ closed ]
     branches: [ '*' ] # NOTE: replace/update with appropriate branch name(s)
   workflow_dispatch:
     inputs:
@@ -107,16 +107,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-#          - os: ubuntu-22.04
-#            c: clang-18
-#            cxx: clang++-18
-#            clang_ver: "18"
-#            clang_ver_full: "18.1.8"
-#            name: "MSan: Ubuntu 22.04 Clang 18"
-#            cmake_flags: "-DUSE_MSAN=ON"
-#            cmake_generator: Ninja
-#            # This env runs memory sanitizers
-#            runs_msan: true
+          #          - os: ubuntu-22.04
+          #            c: clang-18
+          #            cxx: clang++-18
+          #            clang_ver: "18"
+          #            clang_ver_full: "18.1.8"
+          #            name: "MSan: Ubuntu 22.04 Clang 18"
+          #            cmake_flags: "-DUSE_MSAN=ON"
+          #            cmake_generator: Ninja
+          #            # This env runs memory sanitizers
+          #            runs_msan: true
 
           - os: ubuntu-22.04
             c: gcc-12
@@ -154,16 +154,16 @@ jobs:
             # cmake_flags:
             # cmake_generator: Ninja
 
-#          - os: windows-2022
-#            c: cl
-#            cxx: cl
-#            name: "ASan: Windows 2022 MSVC 19.41"
-#            cmake_flags: "-DUSE_ASAN=ON"
-#            # Ninja is not faster on MSVC because... MSVC
-#            # cmake_generator: "Ninja"
-#            # cmake_generator: "Ninja Multi-Config"
-#            # This env runs address sanitizers
-#            runs_asan: true
+          #          - os: windows-2022
+          #            c: cl
+          #            cxx: cl
+          #            name: "ASan: Windows 2022 MSVC 19.41"
+          #            cmake_flags: "-DUSE_ASAN=ON"
+          #            # Ninja is not faster on MSVC because... MSVC
+          #            # cmake_generator: "Ninja"
+          #            # cmake_generator: "Ninja Multi-Config"
+          #            # This env runs address sanitizers
+          #            runs_asan: true
 
           - os: windows-2022
             c: gcc
@@ -280,12 +280,41 @@ jobs:
       - name: "Postgres setup"
         run: |
           export PGPASSWORD=pipeline_test_password
-          psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "CREATE TABLE IF NOT EXISTS users (
-                                                                                       id SERIAL PRIMARY KEY,
-                                                                                       username VARCHAR(50) UNIQUE NOT NULL,
-                                                                                       passwordSalt VARCHAR(150) NOT NULL,
-                                                                                       passwordHash VARCHAR(150) NOT NULL
-                                                                                       );"
+          psql -h localhost -U pipeline_test_user -d pipeline_test_password_keeper -c "
+            CREATE TABLE IF NOT EXISTS users (
+              id SERIAL PRIMARY KEY,
+              username VARCHAR(50) UNIQUE NOT NULL,
+              passwordSalt VARCHAR(150) NOT NULL,
+              passwordHash VARCHAR(150) NOT NULL
+            );
+          
+            CREATE TABLE IF NOT EXISTS bankaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              IBAN VARCHAR(50) NOT NULL,
+              bank VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_bankaccount PRIMARY KEY (id, username, password, IBAN, bank)
+            );
+          
+            CREATE TABLE IF NOT EXISTS emailaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              emailAddress VARCHAR(50) NOT NULL,
+              mailProvider VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_emailaccounts PRIMARY KEY (id, username, password, emailAddress, mailProvider)
+            );
+          
+            CREATE TABLE IF NOT EXISTS socialmediaaccounts (
+              id SERIAL REFERENCES users (id),
+              username VARCHAR(50) NOT NULL,
+              password VARCHAR(50) NOT NULL,
+              platform VARCHAR(50) NOT NULL,
+              profileUrl VARCHAR(50) NOT NULL,
+              CONSTRAINT pk_socialmediaaccounts PRIMARY KEY (id, username, password, platform, profileUrl)
+            );
+          "
 
       - name: "Run tests"
         env:

@@ -26,7 +26,7 @@ FetchContent_MakeAvailable(pqxx)
 find_package(PostgreSQL)
 
 add_subdirectory(src)
-if(RUN_TESTS)
+if (RUN_TESTS)
     include(CTest)
     enable_testing()
     add_subdirectory(tests)

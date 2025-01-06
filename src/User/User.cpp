@@ -1,9 +1,10 @@
 #include "User.h"
 
-#include <iostream>
 #include <utility>
 
-#include "../Logger/Logger.h"
+#include <Logger.h>
+
+int User::currentUserId = -1;
 
 std::ostream &operator<<(std::ostream &os, const User &user) {
     os << "UserId:" << user.userId << '\n' <<
@@ -45,5 +46,13 @@ int User::getUserId() const {
 
 void User::setUserId(const int id) {
     this->userId = id;
+}
+
+void User::setCurrentUserId(const int currentUserId) {
+    User::currentUserId = currentUserId;
+}
+
+int User::getCurrentUserId() {
+    return currentUserId;
 }
 
