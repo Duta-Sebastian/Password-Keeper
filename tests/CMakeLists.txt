@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME}
         UserTest.cpp
         AccountFactoryTest.cpp
         VectorPlusTest.cpp
+        AccountTestInsertShowLoggedIn.cpp
         AccountTestNotLoggedIn.cpp
 )
 include(${CMAKE_HELPER_DIR}/CompilerFlags.cmake)

@@ -12,7 +12,7 @@ namespace ShowAccountsCommands {
             account->show();
              }
         std::cout << "---------------------------------\n";
-        database.release();
+        DatabasePool::getInstance().release(database);
     } ;
 
     inline void showAllAccounts() {

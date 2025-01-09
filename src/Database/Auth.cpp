@@ -4,10 +4,7 @@
 #include <utility>
 
 Auth::Auth(std::string username, std::string password)
-    : username(std::move(username)), password(std::move(password)) {
-    database = DatabasePool::getInstance().acquire();
-
-}
+    : username(std::move(username)), password(std::move(password)), database(DatabasePool::getInstance().acquire()) {}
 
 User Auth::createAccount() const {
     try {
@@ -42,5 +39,5 @@ User Auth::login() const {
 }
 
 Auth::~Auth() {
-    database.release();
+    DatabasePool::getInstance().release(database);
 }

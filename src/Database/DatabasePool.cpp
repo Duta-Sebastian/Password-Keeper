@@ -25,7 +25,7 @@ std::unique_ptr<Database> DatabasePool::acquire() {
     return dbInstance;
 }
 
-void DatabasePool::release(std::unique_ptr<Database> dbInstance) {
+void DatabasePool::release(std::unique_ptr<Database>& dbInstance) {
     std::lock_guard<std::mutex> lock(poolMutex);
     pool.push(std::move(dbInstance));
 }

@@ -18,7 +18,7 @@ void EmailAccount::addAccount() {
     auto database = DatabasePool::getInstance().acquire();
     const auto emailAccount = std::make_shared<EmailAccount>(*this);
     database->addUserDefinedAccount(emailAccount, this->getAccountType());
-    database.release();
+    DatabasePool::getInstance().release(database);
 }
 
 std::string EmailAccount::getEmailAddress() const {

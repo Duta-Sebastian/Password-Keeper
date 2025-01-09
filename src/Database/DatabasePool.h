@@ -27,7 +27,7 @@ public:
 
     std::unique_ptr<Database> acquire();
 
-    void release(std::unique_ptr<Database> dbInstance);
+    void release(std::unique_ptr<Database>& dbInstance);
 };
 
 #endif // DATABASEPOOL_H

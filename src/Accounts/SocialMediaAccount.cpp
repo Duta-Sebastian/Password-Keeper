@@ -18,7 +18,7 @@ void SocialMediaAccount::addAccount() {
     auto database = DatabasePool::getInstance().acquire();
     const auto emailAccount = std::make_shared<SocialMediaAccount>(*this);
     database->addUserDefinedAccount(emailAccount, this->getAccountType());
-    database.release();
+    DatabasePool::getInstance().release(database);
 }
 
 std::string SocialMediaAccount::getPlatform() const {

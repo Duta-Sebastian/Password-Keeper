@@ -21,7 +21,7 @@ TEST_F(UserTest, AccountCreationIncreasesNumberOfAccounts) {
     const Auth auth("AccountCreationIncreasesNumberOfAccounts", "test");
     auto user = auth.createAccount();
     const int numberOfUsersAfter = database->getNumberOfUsers();
-    database.release();
+    DatabasePool::getInstance().release(database);
     ASSERT_EQ(numberOfUsersBefore+1, numberOfUsersAfter);
 }
 
@@ -31,7 +31,7 @@ TEST_F(UserTest, NewAccountDetailsTest) {
     const Auth auth(username, "test");
     const auto expectedUser = auth.createAccount();
     const auto actualUser = database->getUserByUsername(username);
-    database.release();
+    DatabasePool::getInstance().release(database);
     ASSERT_EQ(expectedUser, actualUser);
 }
 

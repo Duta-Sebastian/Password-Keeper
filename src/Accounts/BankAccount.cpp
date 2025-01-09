@@ -17,7 +17,7 @@ void BankAccount::addAccount() {
     auto database = DatabasePool::getInstance().acquire();
     const auto bankAccount = std::make_shared<BankAccount>(*this);
     database->addUserDefinedAccount(bankAccount, this->getAccountType());
-    database.release();
+    DatabasePool::getInstance().release(database);
 }
 
 std::string BankAccount::getIBAN() const {
