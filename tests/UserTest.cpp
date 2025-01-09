@@ -16,20 +16,22 @@ protected:
 };
 
 TEST_F(UserTest, AccountCreationIncreasesNumberOfAccounts) {
-    const auto &database = Database::getDatabaseInstance();
-    const int numberOfUsersBefore = database.getNumberOfUsers();
+    auto database = DatabasePool::getInstance().acquire();
+    const int numberOfUsersBefore = database->getNumberOfUsers();
     const Auth auth("AccountCreationIncreasesNumberOfAccounts", "test");
     auto user = auth.createAccount();
-    const int numberOfUsersAfter = database.getNumberOfUsers();
+    const int numberOfUsersAfter = database->getNumberOfUsers();
+    database.release();
     ASSERT_EQ(numberOfUsersBefore+1, numberOfUsersAfter);
 }
 
 TEST_F(UserTest, NewAccountDetailsTest) {
-    const auto &database = Database::getDatabaseInstance();
+    auto database = DatabasePool::getInstance().acquire();
     std::string username = "NewAccountDetailsTest";
     const Auth auth(username, "test");
     const auto expectedUser = auth.createAccount();
-    const auto actualUser = database.getUserByUsername(username);
+    const auto actualUser = database->getUserByUsername(username);
+    database.release();
     ASSERT_EQ(expectedUser, actualUser);
 }
 

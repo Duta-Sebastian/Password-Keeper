@@ -18,8 +18,8 @@ add_library(${PROJECT_NAME}_lib
         Accounts/EmailAccount.cpp
         Accounts/SocialMediaAccount.cpp
         Accounts/AccountFactory.cpp
-        Accounts/AccountFactory.h
         Utils/AddAccountCommandTemplate.cpp
+        Database/DatabasePool.cpp
 )
 
 target_include_directories(${PROJECT_NAME}_lib SYSTEM PRIVATE

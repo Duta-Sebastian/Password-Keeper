@@ -5,27 +5,17 @@
 
 #include <Account.h>
 #include <User.h>
+#include "DatabasePool.h"
 
 class Database {
-    std::unique_ptr<pqxx::connection> connection;
+    std::shared_ptr<pqxx::connection> connection;
     static std::string connString;
-
+public:
     Database();
 
     ~Database();
 
-public:
-    Database(const Database &) = delete;
-
-    Database &operator=(const Database &) = delete;
-
-    Database(Database &&) = delete;
-
-    Database &operator=(Database &&) = delete;
-
     [[nodiscard]] std::tuple<std::string, std::string> getLoginInformation(const std::string &) const;
-
-    static Database &getDatabaseInstance();
 
     static void setConnString(const std::string &);
 

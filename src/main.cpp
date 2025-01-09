@@ -9,6 +9,7 @@
 #include <Auth.h>
 #include <EnvironmentReader.h>
 #include <Logger.h>
+#include "DatabasePool.h"
 
 void initializeDatabase() {
     auto &logger = Logger::getInstance();
@@ -16,7 +17,8 @@ void initializeDatabase() {
     try {
         const std::string connString = EnvironmentReader::getConnString();
         Database::setConnString(connString);
-        Database::getDatabaseInstance();
+        DatabasePool &dbPool = DatabasePool::getInstance();
+        auto conn = dbPool.acquire();
         logger.log(LogLevel::INFO, "Connected to database");
     } catch (EnvironmentVariableNotFound &e) {
         logger.log(LogLevel::LOG_ERROR, "Error initializing database connection: " + std::string(e.what()));

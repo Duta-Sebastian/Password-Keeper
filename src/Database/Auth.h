@@ -4,12 +4,14 @@
 #include "../User/User.h"
 
 class Auth {
-    Database &database = Database::getDatabaseInstance();
+    std::unique_ptr<Database> database;
     std::string username;
     std::string password;
 
 public:
     explicit Auth(std::string, std::string);
+
+    ~Auth();
 
     [[nodiscard]] User createAccount() const;
 

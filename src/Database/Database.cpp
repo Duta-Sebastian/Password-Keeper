@@ -14,7 +14,7 @@ std::string Database::connString;
 
 Database::Database() {
     try {
-        connection = std::make_unique<pqxx::connection>(connString);
+        connection = std::make_shared<pqxx::connection>(connString);
         if (!connection->is_open()) {
             throw FailedToOpen("Database exists but a connection couldn't be established");
         }
@@ -29,11 +29,6 @@ Database::~Database() {
         connection->close();
     }
     connection = nullptr;
-}
-
-Database &Database::getDatabaseInstance() {
-    static Database databaseInstance;
-    return databaseInstance;
 }
 
 void Database::setConnString(const std::string &connectionString) {

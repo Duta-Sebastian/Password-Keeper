@@ -5,13 +5,15 @@
 
 Auth::Auth(std::string username, std::string password)
     : username(std::move(username)), password(std::move(password)) {
+    database = DatabasePool::getInstance().acquire();
+
 }
 
 User Auth::createAccount() const {
     try {
         auto currentUser = User(username, password);
-        database.createAccount(currentUser);
-        currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
+        database->createAccount(currentUser);
+        currentUser.setUserId(database->getCurrentUserId(currentUser.getUsername()));
         User::setCurrentUserId(currentUser.getUserId());
         return currentUser;
     }
@@ -25,11 +27,11 @@ User Auth::createAccount() const {
 
 User Auth::login() const {
     try {
-        auto [storedPasswordSalt, storedPasswordHash] = database.getLoginInformation(username);
+        auto [storedPasswordSalt, storedPasswordHash] = database->getLoginInformation(username);
         if (const auto hashedInputPassword = PasswordHash(password, storedPasswordSalt);
             hashedInputPassword.getPasswordHash() == storedPasswordHash) {
             auto currentUser = User(username, hashedInputPassword);
-            currentUser.setUserId(database.getCurrentUserId(currentUser.getUsername()));
+            currentUser.setUserId(database->getCurrentUserId(currentUser.getUsername()));
             User::setCurrentUserId(currentUser.getUserId());
             return currentUser;
         }
@@ -37,4 +39,8 @@ User Auth::login() const {
     } catch (std::exception&) {
         throw;
     }
+}
+
+Auth::~Auth() {
+    database.release();
 }

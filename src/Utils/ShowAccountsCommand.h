@@ -7,11 +7,12 @@
 namespace ShowAccountsCommands {
     template<AccountType T>
     void showAccountsCommand() {
-        for (const auto &database = Database::getDatabaseInstance();
-             const auto &account: database.getAccountsByType(T)) {
+        auto database = DatabasePool::getInstance().acquire();
+        for (const auto &account: database->getAccountsByType(T)) {
             account->show();
              }
         std::cout << "---------------------------------\n";
+        database.release();
     } ;
 
     inline void showAllAccounts() {

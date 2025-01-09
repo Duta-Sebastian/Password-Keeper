@@ -15,9 +15,10 @@ SocialMediaAccount::SocialMediaAccount(std::string username, std::string passwor
 }
 
 void SocialMediaAccount::addAccount() {
-    const Database &database = Database::getDatabaseInstance();
+    auto database = DatabasePool::getInstance().acquire();
     const auto emailAccount = std::make_shared<SocialMediaAccount>(*this);
-    database.addUserDefinedAccount(emailAccount, this->getAccountType());
+    database->addUserDefinedAccount(emailAccount, this->getAccountType());
+    database.release();
 }
 
 std::string SocialMediaAccount::getPlatform() const {

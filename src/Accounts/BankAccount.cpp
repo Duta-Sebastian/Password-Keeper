@@ -14,9 +14,10 @@ AccountType BankAccount::getAccountType() const {
 }
 
 void BankAccount::addAccount() {
-    const Database &database = Database::getDatabaseInstance();
+    auto database = DatabasePool::getInstance().acquire();
     const auto bankAccount = std::make_shared<BankAccount>(*this);
-    database.addUserDefinedAccount(bankAccount, this->getAccountType());
+    database->addUserDefinedAccount(bankAccount, this->getAccountType());
+    database.release();
 }
 
 std::string BankAccount::getIBAN() const {
